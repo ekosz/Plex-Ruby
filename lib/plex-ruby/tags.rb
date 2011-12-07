@@ -5,9 +5,9 @@ module Plex
     
     attr_reader :id, :tag
 
-    def initialize(options)
-      @id  = options['id']
-      @tag = options['tag']
+    def initialize(node)
+      @id  = node.attr('id')
+      @tag = node.attr('tag')
     end
 
   end
@@ -20,10 +20,10 @@ module Plex
     
     attr_reader :id, :tag, :role
 
-    def initialize(options)
-      @id   = options['id']
-      @tag  = options['tag']
-      @role = options['role']
+    def initialize(node)
+      @id   = node.attr('id')
+      @tag  = node.attr('tag')
+      @role = node.attr('role')
     end
 
   end

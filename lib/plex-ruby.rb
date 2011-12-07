@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
+require 'cgi'
 
 module Plex
 
@@ -23,8 +24,14 @@ end
 
 require 'plex-ruby/parser'
 require 'plex-ruby/server'
+require 'plex-ruby/client'
 require 'plex-ruby/libary'
 require 'plex-ruby/section'
+require 'plex-ruby/video'
+require 'plex-ruby/media'
+require 'plex-ruby/part'
+require 'plex-ruby/stream'
+require 'plex-ruby/tags'
 require 'plex-ruby/show'
 require 'plex-ruby/season'
 require 'plex-ruby/episode'

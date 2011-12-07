@@ -7,25 +7,12 @@ module Plex
       @key = key
     end
     
-    %w(ratingKey guid studio title  summary index rating year 
-       thumb art duration originallyAvailableAt addedAt updatedAt).each { |method|
-      class_eval %(
-        def #{Plex.snake_case(method)}; @#{method} ||= video.attr('#{method}') end
-      )
-    }
-
-    %w(Writer Director).each { |tag|
-      class_eval %(
-        def #{tag.downcase}s
-          @#{tag.downcase}s ||= 
-            xml_doc.search('#{tag}').map { |node| #{tag}.new(node.actributes) }.compact
-        end
-        def #{tag.downcase}; #{tag.downcase}s.first end
-      )
-    }
-
-    def media
-      @media ||= Plex::Parser.new(xml_doc.search('Media').first).parse
+    def method_missing(method, *args, &block)
+      if video.respond_to? method
+        video.send(method, *args, &block)
+      else
+        super
+      end
     end
 
     private
@@ -35,7 +22,7 @@ module Plex
     end
 
     def video
-      @video ||= xml_doc.search('Video').first
+      @video ||= Plex::Video.new(xml_doc.search('Video').first)
     end
 
   end

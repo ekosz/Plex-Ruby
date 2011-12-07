@@ -16,5 +16,15 @@ module Plex
       @libary ||= Plex::Libary.new
     end
 
+    def clients
+      @clients ||= clients_doc.search('Server').map { |m| Plex::Client.new(m) }
+    end
+
+    private
+
+    def clients_doc
+      @clients_doc ||= Nokogiri::XML( open(Plex.url+'/clients') )
+    end
+
   end
 end

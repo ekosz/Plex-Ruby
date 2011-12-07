@@ -1,20 +1,16 @@
 module Plex
   class Part
 
-    attr_reader :media, :id, :key, :duration, :file, :size, :streams
+    attr_reader :id, :key, :duration, :file, :size, :streams
 
-    def initialize(media, id, key, duration, file, size, streams)
-      @media    = media
-      @id       = id
-      @key      = key
-      @duration = duration
-      @file     = file
-      @size     = size
-      @streams  = streams
-    end
+    def initialize(node)
+      @id       = node.attr('id')
+      @key      = node.attr('key')
+      @duration = node.attr('duration')
+      @file     = node.attr('file')
+      @size     = node.attr('size')
 
-    def self.build_from_xml(media, xml)
-      new()
+      @streams  = node.search('Stream').map { |m| Stream.new(m) }
     end
 
   end

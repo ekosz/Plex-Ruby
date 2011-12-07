@@ -1,39 +1,35 @@
 module Plex
   class Video
     
-    attr_reader :ratingKey, :key, :studio, :type, :title, :titleSort, :contentRating,
-      :summary, :rating, :viewCount, :year, :tagline, :thumb, :art, :duration,
-      :originallyAvailableAt, :updatedAt, :media, :genres, :writers, :directors,
-      :roles
+    attr_reader :rating_key, :key, :studio, :type, :title, :title_sort, 
+      :content_rating, :summary, :rating, :view_count, :year, :tagline, :thumb, :art, 
+      :duration, :originally_available_at, :updated_at, :media, :genres, :writers,
+      :directors, :roles
 
-    def initialize(rk, key, st, ty, tt, ts, cr, sum, rat, vc, ye, tl, th, art, dr,
-                   oaa, ua, med, gs, ws, ds, rs)
-      @ratingKey              = rk
-      @key                    = key
-      @studio                 = st
-      @type                   = ty
-      @title                  = tt
-      @titleSort              = ts
-      @contentRating          = cr
-      @summary                = sum
-      @rating                 = rat
-      @viewCount              = vc
-      @year                   = ye
-      @tagline                = tl
-      @thumb                  = th
-      @art                    = art
-      @duration               = dr
-      @originallyAvailableAt  = oaa
-      @updatedAt              = ua
-      @media                  = med
-      @genres                 = gs
-      @writers                = ws
-      @directors              = ds
-      @roles                  = rs
-    end
+    def initialize(node)
+      @rating_key               = node.attr('ratingKey')
+      @key                      = node.attr('key')
+      @studio                   = node.attr('studio')
+      @type                     = node.attr('type')
+      @title                    = node.attr('title')
+      @title_sort               = node.attr('titleSort')
+      @content_rating           = node.attr('contentRating')
+      @summary                  = node.attr('summary')
+      @rating                   = node.attr('rating')
+      @viewCount                = node.attr('viewCount')
+      @year                     = node.attr('year')
+      @tagline                  = node.attr('tagline')
+      @thumb                    = node.attr('thumb')
+      @art                      = node.attr('art')
+      @duration                 = node.attr('duration')
+      @originally_available_at  = node.attr('originallyAvailableAt')
+      @updatedAt                = node.attr('updatedAt')
 
-    def self.build_from_xml(xml)
-      new()
+      @media      = Plex::Media.new(node.search('Media').first)
+      @genres     = node.search('Genre').map    { |m| Plex::Genre.new(m)    }
+      @writers    = node.search('Writer').map   { |m| Plex::Writer.new(m)   }
+      @directors  = node.search('Director').map { |m| Plex::Director.new(m) } 
+      @roles      = node.search('Role').map     { |m| Plex::Role.new(m)     } 
     end
 
   end
