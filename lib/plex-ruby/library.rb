@@ -1,5 +1,5 @@
 module Plex
-  class Libary
+  class Library
 
     # Grab a specific section
     #
@@ -14,7 +14,7 @@ module Plex
       search_sections(xml_doc!, id).first
     end
 
-    # A list of sections that are located in this libary
+    # A list of sections that are located in this library
     #
     # @return [Array] list of sections
     def sections

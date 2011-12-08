@@ -34,7 +34,7 @@ end
 require 'plex-ruby/parser'
 require 'plex-ruby/server'
 require 'plex-ruby/client'
-require 'plex-ruby/libary'
+require 'plex-ruby/library'
 require 'plex-ruby/section'
 require 'plex-ruby/video'
 require 'plex-ruby/media'

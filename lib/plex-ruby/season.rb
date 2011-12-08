@@ -1,5 +1,5 @@
 module Plex
-  # Found at /libary/metadata/:key
+  # Found at /library/metadata/:key
   class Season
 
     ATTRIBUTES = %w(ratingKey guid type title summary index thumb leafCount 

@@ -12,8 +12,8 @@ module Plex
     # The library of this server
     #
     # @return [Library] this Servers library
-    def libary
-      @libary ||= Plex::Libary.new
+    def library
+      @library ||= Plex::Libary.new
     end
 
     # The Plex clients that are connected to this Server

@@ -1,5 +1,5 @@
 module Plex
-  # Found at /libary/metadata/:key
+  # Found at /library/metadata/:key
   class Show
 
     ATTRIBUTES = %w(guid studio title contentRating summary index rating year thumb 
