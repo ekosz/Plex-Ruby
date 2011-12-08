@@ -18,6 +18,7 @@ module Plex
     ATTRIBUTES.each { |method|
       class_eval %(
         def #{Plex.snake_case(method)}; @#{method} ||= directory.attr('#{method}') end
+        def #{Plex.snake_case(method)}!; @#{method} = directory!.attr('#{method}') end
       )
     }
 
@@ -25,24 +26,51 @@ module Plex
     #
     # @return [Array] list of Seasons that are a part of this Show
     def seasons
-      @seasons ||=
-        children.search('Directory').map do |season|
-          Plex::Season.new(season.attr('key')[0..-10]) # Remove /children
-        end
+      @seasons ||= search_children children
+    end
+
+    def seasons!
+      @seasons = search_children children!
     end
 
     private
 
+    def base_doc
+      Nokogiri::XML( open(Plex.url+key) )
+    end
+
+    def children_base
+      Nokogiri::XML( open(Plex.url+key+'/children') )
+    end
+
+    def xml_doc
+      @xml_doc ||= base_doc
+    end
+    
+    def xml_doc!
+      @xml_doc = base_doc
+    end
+
     def children
-      @children ||= Nokogiri::XML( open(Plex.url+key+'/children') )
+      @children ||= children_base
+    end
+
+    def children!
+      @children = children_base
     end
 
     def directory
       @directory ||= xml_doc.search('Directory').first
     end
-    
-    def xml_doc
-      @xml_doc ||= Nokogiri::XML( open(Plex.url+key) )
+
+    def directory!
+      @directory = xml_doc!.search('Directory').first
+    end
+
+    def search_children(node)
+      node.search('Directory').map do |season|
+        Plex::Season.new(season.attr('key')[0..-10]) # Remove /children
+      end
     end
 
   end
