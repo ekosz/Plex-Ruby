@@ -1,6 +1,13 @@
 module Plex
   class Library
 
+    attr_reader :server
+
+    # @param [Server] server this libary belongs to
+    def initialize(server)
+      @server = server
+    end
+
     # Grab a specific section
     #
     # @param [String, Fixnum] key of the section we want
@@ -30,11 +37,15 @@ module Plex
       "/library/sections"
     end
 
+    def url
+      server.url
+    end
+
     private
 
     def search_sections(doc, key = nil)
       term = key ? "Directory[@key='#{key}']" : 'Directory'
-      doc.search(term).map { |m| Plex::Section.new(m.attributes) }
+      doc.search(term).map { |m| Plex::Section.new(self, m) }
     end
 
     def xml_doc
@@ -46,7 +57,7 @@ module Plex
     end
 
     def base_doc
-      Nokogiri::XML( open(Plex.url+key) )
+      Nokogiri::XML( open(url+key) )
     end
 
 

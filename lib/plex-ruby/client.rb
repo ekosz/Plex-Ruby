@@ -7,9 +7,13 @@ module Plex
     PLAYBACK_METHODS = %w(play pause stop rewind fastForward stepForward 
                           bigStepForward stepBack bigStepBack skipNext skipPrevious)
 
-    attr_reader :name, :host, :address, :port, :machine_identifier, :version
+    attr_reader :server, :name, :host, :address, :port, :machine_identifier, :version
 
-    def initialize(node)
+
+    # @param [Server] server this client belongs to
+    # @param [Nokogiri::XML::Element] nokogiri element to build from
+    def initialize(server, node)
+      @server = server
       @name = node.attr('name')
       @host = node.attr('host')
       @address = node.attr('address')
@@ -59,7 +63,7 @@ module Plex
     #   the console for the error message
     def play_media(key, user_agent = nil, http_cookies = nil, view_offset = nil)
       url = player_url+'/application/playMedia?'
-      url += "path=#{CGI::escape(Plex.url+key)}"
+      url += "path=#{CGI::escape(server.url+key)}"
       url += "&key=#{CGI::escape(key)}"
       url += "&userAgent=#{user_agent}" if user_agent
       url += "&httpCookies=#{http_cookies}" if http_cookies
@@ -111,10 +115,14 @@ module Plex
       ping player_url+"/application/sendVirtualKey?code=#{CGI::escape(code.to_s)}"
     end
 
+    def url
+      server.url
+    end
+
     private
 
     def player_url
-      Plex.url+"/system/players/#{name}"
+      url+"/system/players/#{name}"
     end
 
     def ping(url)

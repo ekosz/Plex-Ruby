@@ -6,9 +6,12 @@ module Plex
                     art banner theme duration originallyAvailableAt leafCount 
                     viewedLeafCount addedAt updatedAt)
 
-    attr_reader :key
+    attr_reader :section, :key
 
-    def initialize(key)
+    # @param [Section] section this show belongs to
+    # @param [String] key to use to later grab this Show
+    def initialize(section, key)
+      @section = section
       @key = key
     end
 
@@ -33,14 +36,18 @@ module Plex
       @seasons = search_children children!
     end
 
+    def url
+      section.url
+    end
+
     private
 
     def base_doc
-      Nokogiri::XML( open(Plex.url+key) )
+      Nokogiri::XML( open(url+key) )
     end
 
     def children_base
-      Nokogiri::XML( open(Plex.url+key+'/children') )
+      Nokogiri::XML( open(url+key+'/children') )
     end
 
     def xml_doc
@@ -69,7 +76,7 @@ module Plex
 
     def search_children(node)
       node.search('Directory').map do |season|
-        Plex::Season.new(season.attr('key')[0..-10]) # Remove /children
+        Plex::Season.new(self, season.attr('key')[0..-10]) # Remove /children
       end
     end
 

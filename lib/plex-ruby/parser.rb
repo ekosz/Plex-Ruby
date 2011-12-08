@@ -1,9 +1,12 @@
 module Plex
   class Parser
 
-    attr_reader :node
+    attr_reader :parent, :node
 
-    def initialize(node)
+    # @param object representing the parent of what we're trying to parse
+    # @param [Nokogiri::XML::Element] nokogiri node to parse
+    def initialize(parent, node)
+      @parent = parent
       @node = node
     end
 
@@ -17,7 +20,7 @@ module Plex
     def parse
       case node.name
       when 'document'
-        Plex::Parser.new(node.root).parse
+        Plex::Parser.new(parent, node.root).parse
       when 'MediaContainer'
         parse_media_container
       when 'Video'
@@ -34,7 +37,7 @@ module Plex
 
     def parse_media_container
       return nil if node.attr('size').to_i == 0
-      node.children.map {|m| Plex::Parser.new(m).parse }.compact
+      node.children.map {|m| Plex::Parser.new(parent, m).parse }.compact
     end
 
     def parse_video
@@ -49,17 +52,17 @@ module Plex
     end
 
     def parse_movie
-      Plex::Movie.new( node.attr('key') )
+      Plex::Movie.new( parent, node.attr('key') )
     end
 
     def parse_episode
-      Plex::Episode.new( node.attr('key') )
+      Plex::Episode.new( parent, node.attr('key') )
     end
 
     def parse_directory
       case node.attr('type')
       when 'show'
-        Plex::Show.new( node.attr('key')[0..-10] ) # Remove /children
+        Plex::Show.new( parent, node.attr('key')[0..-10] ) # Remove /children
       else
         raise "Unsupported Directory type #{node.attr('type')}"
       end

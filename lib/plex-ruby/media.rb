@@ -4,6 +4,8 @@ module Plex
       :audio_codec, :video_codec, :video_resolution, :container, :video_frame_rate,
       :parts
 
+    # @param [Nokogiri::XML::Element] nokogiri element that represents this
+    #   Media
     def initialize(node)
       @id               = node.attr('id')
       @durration        = node.attr('durration')

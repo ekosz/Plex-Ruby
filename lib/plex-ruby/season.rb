@@ -5,9 +5,12 @@ module Plex
     ATTRIBUTES = %w(ratingKey guid type title summary index thumb leafCount 
                     viewedLeafCount addedAt updatedAt) 
 
-    attr_reader :key
+    attr_reader :show, :key
 
-    def initialize(key)
+    # @param [Show] show this Season belongs to
+    # @param [String] key to later grab this Season from
+    def initialize(show, key)
+      @show = show
       @key = key
     end
 
@@ -36,14 +39,18 @@ module Plex
       @episodes = episodes_from_video(children!)
     end
 
+    def url
+      show.url
+    end
+
     private
 
     def base_doc
-      Nokogiri::XML( open(Plex.url+key) )
+      Nokogiri::XML( open(url+key) )
     end
 
     def base_children_doc
-      Nokogiri::XML( open(Plex.url+key+'/children') )
+      Nokogiri::XML( open(url+key+'/children') )
     end
 
     def xml_doc
@@ -63,7 +70,7 @@ module Plex
     end
 
     def episodes_from_video(node)
-      node.search("Video").map { |m| Plex::Episode.new(m.attr('key')) }
+      node.search("Video").map { |m| Plex::Episode.new(self, m.attr('key')) }
     end
 
     def directory

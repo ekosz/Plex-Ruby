@@ -1,10 +1,17 @@
 module Plex
   class Movie
 
-    attr_reader :key
+    attr_reader :section, :key
 
-    def initialize(key)
+    # @param [Section] section this movie belongs in
+    # @param [String] key to later referance this Movie
+    def initialize(section, key)
+      @section = section
       @key = key
+    end
+
+    def url
+      section.url
     end
 
     # Delegates all method calls to the video object that represents this
@@ -20,7 +27,7 @@ module Plex
     private
 
     def xml_doc
-      @xml_doc ||= Nokogiri::XML( open(Plex.url+key) )
+      @xml_doc ||= Nokogiri::XML( open(url+key) )
     end
 
     def video

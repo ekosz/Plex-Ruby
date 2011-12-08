@@ -3,6 +3,8 @@ module Plex
 
     attr_reader :id, :key, :duration, :file, :size, :streams
 
+    # @param [Nokogiri::XML::Element] nokogiri element that represents this
+    #   part
     def initialize(node)
       @id       = node.attr('id')
       @key      = node.attr('key')

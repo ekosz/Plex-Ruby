@@ -6,14 +6,13 @@ module Plex
     def initialize(host, port)
       @host = host
       @port = port
-      Plex.url = "http://#{host}:#{port}"
     end
 
     # The library of this server
     #
     # @return [Library] this Servers library
     def library
-      @library ||= Plex::Libary.new
+      @library ||= Plex::Library.new(self)
     end
 
     # The Plex clients that are connected to this Server
@@ -28,10 +27,14 @@ module Plex
       @clients = search_clients clients_doc!
     end
 
+    def url
+      "http://#{host}:#{port}"
+    end
+
     private
 
     def clients_base
-      Nokogiri::XML( open(Plex.url+'/clients') )
+      Nokogiri::XML( open(url+'/clients') )
     end
 
     def clients_doc
@@ -43,7 +46,7 @@ module Plex
     end
 
     def search_clients(node)
-      node.search('Server').map { |m| Plex::Client.new(m) }
+      node.search('Server').map { |m| Plex::Client.new(self, m) }
     end
 
   end

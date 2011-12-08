@@ -6,6 +6,8 @@ module Plex
       :duration, :originally_available_at, :updated_at, :media, :genres, :writers,
       :directors, :roles
 
+    # @param [Nokogiri::XML::Element] nokogiri element that represents this
+    #   Video
     def initialize(node)
       @rating_key               = node.attr('ratingKey')
       @key                      = node.attr('key')

@@ -5,7 +5,7 @@ require 'cgi'
 module Plex
 
   # Converts camel case names that are commonly found in the Plex APIs into
-  # ruby friendly names.  I.E. playMedia -> play_media
+  # ruby friendly names.  I.E. <tt>playMedia</tt> -> <tt>play_media</tt>
   #
   # @param [String] camel case name to be converted
   # @return [String] snake case form
@@ -15,18 +15,6 @@ module Plex
     gsub(/([a-z\d])([A-Z])/,'\1_\2').
     tr("-", "_").
     downcase
-  end
-
-  # The base url of the Plex Media Server, I.E. 'http://localhost:32400'
-  # !WARNING! This method will most likely be replaced in future versions
-  #
-  # @return [String] bases url of the Plex Media Server
-  def self.url
-    @@base_url
-  end
-
-  def self.url=(val)
-    @@base_url = val
   end
 
 end

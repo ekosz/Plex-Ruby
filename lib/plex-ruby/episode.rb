@@ -1,9 +1,12 @@
 module Plex
   class Episode
 
-    attr_reader :key
+    attr_reader :season, :key
 
-    def initialize(key)
+    # @param [Season] season this episode belongs to
+    # @param [String] key that we can use to later grab this Episode
+    def initialize(season, key)
+      @season = season
       @key = key
     end
     
@@ -17,10 +20,14 @@ module Plex
       end
     end
 
+    def url
+      season.url
+    end
+
     private
 
     def xml_doc
-      @xml_doc ||= Nokogiri::XML( open(Plex.url+key) )
+      @xml_doc ||= Nokogiri::XML( open(url+key) )
     end
 
     def video
