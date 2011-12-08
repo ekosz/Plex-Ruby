@@ -2,6 +2,10 @@ module Plex
   # Found at /libary/metadata/:key
   class Show
 
+    ATTRIBUTES = %w(guid studio title contentRating summary index rating year thumb 
+                    art banner theme duration originallyAvailableAt leafCount 
+                    viewedLeafCount addedAt updatedAt)
+
     attr_reader :key
 
     def initialize(key)
@@ -11,9 +15,7 @@ module Plex
     # A Show has a key, which allows us to do lazy loading.  A Show will
     # not be fully loaded unless one of its attributes is called.  Then the
     # Show will load itself from its key. Once loaded it caches its self.
-    %w(guid studio title contentRating summary index rating year thumb art banner
-       theme duration originallyAvailableAt leafCount viewedLeafCount addedAt
-       updatedAt).each { |method|
+    ATTRIBUTES.each { |method|
       class_eval %(
         def #{Plex.snake_case(method)}; @#{method} ||= directory.attr('#{method}') end
       )

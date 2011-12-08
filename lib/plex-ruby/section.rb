@@ -1,6 +1,8 @@
 module Plex
   class Section
 
+    GROUPS = %w(all unwatched newest recentlyAdded recentlyViewed onDeck)
+
     attr_reader :refreshing, :type, :title, :art, :agent, :scanner, :language, 
       :updated_at
 
@@ -31,7 +33,7 @@ module Plex
     # on_deck - videos that are "on deck" in this Section
     #
     # @return [Array] list of Shows or Movies in that group
-    %w(all unwatched newest recentlyAdded recentlyViewed onDeck).each { |method|
+    GROUPS.each { |method|
       class_eval %(
         def #{Plex.snake_case(method)}
           Plex::Parser.new( Nokogiri::XML(open(Plex.url+key+'/#{method}')) ).parse

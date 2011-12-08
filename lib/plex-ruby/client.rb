@@ -1,6 +1,12 @@
 module Plex
   class Client
 
+    NAV_METHODS = %w(moveUp moveDown moveLeft moveRight pageUp pageDown nextLetter 
+                     previousLetter select back contextMenu toggleOSD) 
+
+    PLAYBACK_METHODS = %w(play pause stop rewind fastForward stepForward 
+                          bigStepForward stepBack bigStepBack skipNext skipPrevious)
+
     attr_reader :name, :host, :address, :port, :machine_identifier, :version
 
     def initialize(node)
@@ -17,8 +23,7 @@ module Plex
     #
     # @return [True, nil] true if it worked, nil if something went wrong check
     #   the console for the error message
-    %w(moveUp moveDown moveLeft moveRight pageUp pageDown nextLetter previousLetter 
-       select back contextMenu toggleOSD).each { |nav|
+    NAV_METHODS.each { |nav|
       class_eval %(
         def #{Plex.snake_case(nav)}
           ping player_url+'/navigation/#{nav}'
@@ -31,8 +36,7 @@ module Plex
     #
     # @return [True, nil] true if it worked, nil if something went wrong check
     #   the console for the error message
-    %w(play pause stop rewind fastForward stepForward bigStepForward stepBack 
-       bigStepBack skipNext skipPrevious).each { |playback|
+    PLAYBACK_METHODS.each { |playback|
       class_eval %(
         def #{Plex.snake_case(playback)}
           ping player_url+'/playback/#{playback}'

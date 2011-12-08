@@ -2,6 +2,9 @@ module Plex
   # Found at /libary/metadata/:key
   class Season
 
+    ATTRIBUTES = %w(ratingKey guid type title summary index thumb leafCount 
+                    viewedLeafCount addedAt updatedAt) 
+
     attr_reader :key
 
     def initialize(key)
@@ -11,8 +14,7 @@ module Plex
     # A Season has a key, which allows us to do lazy loading.  A season will
     # not be fully loaded unless one of its attributes is called.  Then the
     # Season will load itself from its key. Once loaded it caches its self.
-    %w(ratingKey guid type title summary index thumb leafCount viewedLeafCount 
-       addedAt updatedAt).each { |method|
+    ATTRIBUTES.each { |method|
       class_eval %(
         def #{Plex.snake_case(method)}; directory.attr('#{method}') end
       )
