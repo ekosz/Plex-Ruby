@@ -8,6 +8,9 @@ module Plex
       @key = key
     end
 
+    # A Season has a key, which allows us to do lazy loading.  A season will
+    # not be fully loaded unless one of its attributes is called.  Then the
+    # Season will load itself from its key. Once loaded it caches its self.
     %w(ratingKey guid type title summary index thumb leafCount viewedLeafCount 
        addedAt updatedAt).each { |method|
       class_eval %(
@@ -15,6 +18,9 @@ module Plex
       )
     }
 
+    # Returns the list of episodes in the library that are a part of this Season
+    #
+    # @return [Array] list of episodes in this season that are on the server
     def episodes
       @episodes ||=
         children.search("Video").map { |m| Plex::Episode.new(m.attr('key')) }

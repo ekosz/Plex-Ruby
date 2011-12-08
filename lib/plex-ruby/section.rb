@@ -16,10 +16,21 @@ module Plex
       @updated_at = options['updatedAt'].value
     end
 
+    # NOT IMPLEMENTED
     def refresh(deep = false, force = false)
     end
 
 
+    # Returns a list of shows or movies that are in this Section. 
+    #
+    # all - all videos in this Section
+    # unwatched - videos unwatched in this Section
+    # newest - most recent videos in this Section
+    # recently_added - recently added videos in this Section
+    # recently_viewed - recently viewed videos in this Section
+    # on_deck - videos that are "on deck" in this Section
+    #
+    # @return [Array] list of Shows or Movies in that group
     %w(all unwatched newest recentlyAdded recentlyViewed onDeck).each { |method|
       class_eval %(
         def #{Plex.snake_case(method)}

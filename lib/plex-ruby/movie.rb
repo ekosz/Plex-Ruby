@@ -7,6 +7,8 @@ module Plex
       @key = key
     end
 
+    # Delegates all method calls to the video object that represents this
+    # movie, if that video object responds to the method.
     def method_missing(method, *args, &block)
       if video.respond_to? method
         video.send(method, *args, &block)

@@ -7,6 +7,13 @@ module Plex
       @node = node
     end
 
+    # Parses a XML node and returns the structure it represents. This is
+    # currently used to parse Sections as we don't know whether a Section holds
+    # a list of Shows or a list of Movies.  The parsing is done recursively.
+    #
+    # @return [Array, Movie, Episode, Show] depending on what node it is given,
+    #   will return an Array of Movies or Shows, a single Movie, and single
+    #   Episode, or a single Show
     def parse
       case node.name
       when 'document'
