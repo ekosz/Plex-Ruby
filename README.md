@@ -54,7 +54,7 @@ puts "#{episodes.first.title} - #{episodes.first.summary}" # Looks good
 client.play_media(episodes.first.key) # Play it!
 ```
 
-For a full list of commands check out the documentation.
+For a full list of commands check out the [documentation](http://rubydoc.info/github/ekosz/Plex-Ruby/master/frames).
 
 ## Development
 
