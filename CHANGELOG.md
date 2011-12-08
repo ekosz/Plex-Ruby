@@ -14,3 +14,8 @@
 * Added bang methods that clears caches
 * Fix naming of 'libary' to 'library'
 * Moved static content into Constants (Wow!\s)
+
+## 0.3.0
+
+* Now allows for multiple servers
+* Fix a misspelling of 'library' that broke the gem (Sorry!)
