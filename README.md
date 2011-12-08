@@ -13,6 +13,14 @@ Add to your `Gemfile` and run the `bundle` command
 gem 'plex-ruby'
 ```
 
+Or
+
+```ruby
+gem install plex-ruby
+
+require 'plex-ruby'
+```
+
 I developed this using Ruby 1.9.2 so no guaranties that it will work with
 lesser versions of Ruby.
 
