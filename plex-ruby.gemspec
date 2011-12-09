@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Eric Koslow"]
   s.email       = ["ekoslow@gmail.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/ekosz/Plex-Ruby"
   s.summary     = %q{Plex APIs in easy ruby code}
   s.description = %q{Extracts the Plex API into easy to write ruby code}
 

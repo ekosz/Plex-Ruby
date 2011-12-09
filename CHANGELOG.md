@@ -19,3 +19,13 @@
 
 * Now allows for multiple servers
 * Fix a misspelling of 'library' that broke the gem (Sorry!)
+
+## 0.3.1
+
+* Fix `gem install plex-ruby`, require `open-uri` as a runtime dependecy 
+  wasn't a good idea
+
+## 1.0.0
+
+* Added a test suite that can be run with `rake`
+* I feel this a production ready, will continue to add features
