@@ -14,5 +14,13 @@ module Plex
       @language_code  = node.attr('language_code')
     end
 
+    def ==(other)
+      if other.is_a? Plex::Stream
+        id == other.id
+      else
+        super
+      end
+    end
+
   end
 end

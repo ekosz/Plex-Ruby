@@ -24,6 +24,14 @@ module Plex
       season.url
     end
 
+    def ==(other)
+      if other.is_a? Plex::Episode
+        key == other.key
+      else
+        super
+      end
+    end
+
     private
 
     def xml_doc

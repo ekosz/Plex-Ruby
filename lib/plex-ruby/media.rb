@@ -21,5 +21,13 @@ module Plex
       @parts = node.search("Part").map { |m| Plex::Part.new(m) }
     end
 
+    def ==(other)
+      if other.is_a? Media
+        id == other.id
+      else
+        super
+      end
+    end
+
   end
 end

@@ -12,7 +12,15 @@ module Plex
       @file     = node.attr('file')
       @size     = node.attr('size')
 
-      @streams  = node.search('Stream').map { |m| Stream.new(m) }
+      @streams  = node.search('Stream').map { |m| Plex::Stream.new(m) }
+    end
+
+    def ==(other)
+      if other.is_a? Plex::Part
+        id == other.id
+      else
+        super
+      end
     end
 
   end

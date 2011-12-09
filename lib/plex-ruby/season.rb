@@ -43,6 +43,14 @@ module Plex
       show.url
     end
 
+    def ==(other)
+      if other.is_a? Plex::Season
+        key == other.key
+      else
+        super
+      end
+    end
+
     private
 
     def base_doc

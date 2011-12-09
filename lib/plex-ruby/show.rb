@@ -40,6 +40,14 @@ module Plex
       section.url
     end
 
+    def ==(other)
+      if other.is_a? Plex::Show
+        key == other.key
+      else
+        super
+      end
+    end
+
     private
 
     def base_doc

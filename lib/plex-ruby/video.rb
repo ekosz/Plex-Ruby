@@ -18,20 +18,29 @@ module Plex
       @content_rating           = node.attr('contentRating')
       @summary                  = node.attr('summary')
       @rating                   = node.attr('rating')
-      @viewCount                = node.attr('viewCount')
+      @view_count               = node.attr('viewCount')
       @year                     = node.attr('year')
       @tagline                  = node.attr('tagline')
       @thumb                    = node.attr('thumb')
       @art                      = node.attr('art')
       @duration                 = node.attr('duration')
       @originally_available_at  = node.attr('originallyAvailableAt')
-      @updatedAt                = node.attr('updatedAt')
+      @updated_at               = node.attr('updatedAt')
 
       @media      = Plex::Media.new(node.search('Media').first)
       @genres     = node.search('Genre').map    { |m| Plex::Genre.new(m)    }
       @writers    = node.search('Writer').map   { |m| Plex::Writer.new(m)   }
       @directors  = node.search('Director').map { |m| Plex::Director.new(m) } 
       @roles      = node.search('Role').map     { |m| Plex::Role.new(m)     } 
+    end
+
+
+    def ==(other)
+      if other.is_a? Video
+        key == other.key
+      else
+        super
+      end
     end
 
   end

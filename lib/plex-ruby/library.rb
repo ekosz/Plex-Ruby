@@ -41,6 +41,14 @@ module Plex
       server.url
     end
 
+    def ==(other)
+      if other.is_a? Library
+        server == other.server
+      else
+        super
+      end
+    end
+
     private
 
     def search_sections(doc, key = nil)

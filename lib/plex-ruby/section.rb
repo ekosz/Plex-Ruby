@@ -3,7 +3,7 @@ module Plex
 
     GROUPS = %w(all unwatched newest recentlyAdded recentlyViewed onDeck)
 
-    attr_reader :library, :refreshing, :type, :title, :art, :agent, :scanner, 
+    attr_reader :library, :refreshing, :key, :type, :title, :art, :agent, :scanner, 
       :language, :updated_at
 
     # @param [Library] library this Section belongs to
@@ -51,6 +51,14 @@ module Plex
     
     def url
       library.url
+    end
+
+    def ==(other)
+      if other.is_a? Plex::Section
+        key == other.key
+      else
+        super
+      end
     end
 
   end
