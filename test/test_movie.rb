@@ -3,7 +3,8 @@ require 'test_helper'
 describe Plex::Movie do
 
   before do
-    @movie = Plex::Movie.new(FakeParent.new, '/libary/metadata/6')
+    @section = FakeParent.new
+    @movie = Plex::Movie.new(@section, '/libary/metadata/6')
   end
 
   it "should pass the proper method calls to its video object" do
@@ -12,8 +13,7 @@ describe Plex::Movie do
       "@video", fake_video
     )
 
-    %w(studio type title title_sort content_rating summary rating view_count year 
-       tagline thumb art duration originally_available_at updated_at).each { |method|
+    (Plex::Video::ATTRIBUTES - %w(key)).map {|m| Plex.snake_case(m) }.each { |method|
       @movie.send(method.to_sym).must_equal fake_video.send(method.to_sym)
     }
     
@@ -27,6 +27,10 @@ describe Plex::Movie do
 
     @movie.roles.must_equal fake_video.roles
 
+  end
+
+  it "should remember its parent (section)" do
+    @movie.section.must_equal @section
   end
 
 end

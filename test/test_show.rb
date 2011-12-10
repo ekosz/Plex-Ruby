@@ -2,7 +2,8 @@ require 'test_helper'
 
 describe Plex::Show do
   before do
-    @show = Plex::Show.new(FakeParent.new, '/library/metadata/10')
+    @section = FakeParent.new
+    @show = Plex::Show.new(@section, '/library/metadata/10')
     @show.instance_variable_set("@xml_doc", FakeNode.new(FAKE_SHOW_NODE_HASH))
   end
 
@@ -19,6 +20,10 @@ describe Plex::Show do
     @show.seasons.must_equal(
       [ Plex::Season.new(FakeParent.new, FAKE_SEASON_NODE_HASH[:Directory].attr('key')[0..-10]) ]
     )
+  end
+
+  it "should remember its parent (section)" do
+    @show.section.must_equal @section
   end
 
 end

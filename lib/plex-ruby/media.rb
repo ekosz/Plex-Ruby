@@ -1,22 +1,18 @@
 module Plex
   class Media
-    attr_reader :id, :durration, :bitrate, :aspect_ratio, :audio_channels,
-      :audio_codec, :video_codec, :video_resolution, :container, :video_frame_rate,
-      :parts
+
+    ATTRIBUTES = %w(id durration bitrate aspectRatio audioChannels
+                    audioCodec videoCodec videoResolution container videoFrameRate)
+
+    attr_reader *ATTRIBUTES.map {|m| Plex.snake_case(m) }
+    attr_reader :parts
 
     # @param [Nokogiri::XML::Element] nokogiri element that represents this
     #   Media
     def initialize(node)
-      @id               = node.attr('id')
-      @durration        = node.attr('durration')
-      @bitrate          = node.attr('bitrate')
-      @aspect_ratio     = node.attr('aspectRatio')
-      @audio_channels   = node.attr('audioChannels')
-      @audio_codec      = node.attr('audioCodec')
-      @video_codec      = node.attr('videoCodec')
-      @video_resolution = node.attr('videoResolution')
-      @container        = node.attr('container')
-      @video_frame_rate = node.attr('videoFrameRate')
+      ATTRIBUTES.each { |e|
+        instance_variable_set("@#{Plex.snake_case(e)}", node.attr(e))
+      }
 
       @parts = node.search("Part").map { |m| Plex::Part.new(m) }
     end

@@ -2,7 +2,8 @@ require 'test_helper'
 
 describe Plex::Season do
   before do
-    @season = Plex::Season.new(FakeParent.new, '/library/metadata/10')
+    @show = FakeParent.new
+    @season = Plex::Season.new(@show, '/library/metadata/10')
     @season.instance_variable_set("@xml_doc", FakeNode.new(FAKE_SEASON_NODE_HASH))
   end
 
@@ -19,6 +20,10 @@ describe Plex::Season do
     @season.episodes.must_equal(
       [ Plex::Episode.new(FakeParent.new, FAKE_VIDEO_NODE_HASH[:key]) ]
     )
+  end
+
+  it "should remember its parent (show)" do
+    @season.show.must_equal @show
   end
 
 end

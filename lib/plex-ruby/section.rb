@@ -3,23 +3,19 @@ module Plex
 
     GROUPS = %w(all unwatched newest recentlyAdded recentlyViewed onDeck)
 
-    attr_reader :library, :refreshing, :key, :type, :title, :art, :agent, :scanner, 
-      :language, :updated_at
+    ATTRIBUTES = %w(refreshing key type title art agent scanner language updatedAt)
+
+    attr_reader *ATTRIBUTES.map {|m| Plex.snake_case(m) }
+    attr_reader :library
 
     # @param [Library] library this Section belongs to
     # @param [Nokogiri::XML::Element] nokogiri element that represents this
     #   Section
     def initialize(library, node)
       @library = library
-      @refreshing = node.attr('refreshing')
-      @key        = node.attr('key')
-      @type       = node.attr('type')
-      @title      = node.attr('title')
-      @art        = node.attr('art')
-      @agent      = node.attr('agent')
-      @scanner    = node.attr('scanner')
-      @language   = node.attr('language')
-      @updated_at = node.attr('updatedAt')
+      ATTRIBUTES.each { |e|
+        instance_variable_set("@#{Plex.snake_case(e)}", node.attr(e))
+      }
     end
 
     # NOT IMPLEMENTED

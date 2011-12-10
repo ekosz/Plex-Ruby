@@ -1,16 +1,17 @@
 module Plex
   class Part
 
-    attr_reader :id, :key, :duration, :file, :size, :streams
+    ATTRIBUTES = %w(id key duration file size)
+
+    attr_reader *ATTRIBUTES.map {|m| Plex.snake_case(m) }
+    attr_reader :streams
 
     # @param [Nokogiri::XML::Element] nokogiri element that represents this
     #   part
     def initialize(node)
-      @id       = node.attr('id')
-      @key      = node.attr('key')
-      @duration = node.attr('duration')
-      @file     = node.attr('file')
-      @size     = node.attr('size')
+      ATTRIBUTES.each { |e|
+        instance_variable_set("@#{Plex.snake_case(e)}", node.attr(e))
+      }
 
       @streams  = node.search('Stream').map { |m| Plex::Stream.new(m) }
     end

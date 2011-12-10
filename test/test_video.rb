@@ -6,8 +6,7 @@ describe Plex::Video do
     @video = Plex::Video.new( FakeNode.new(FAKE_VIDEO_NODE_HASH) )
   end
 
-  %w(key studio type title title_sort content_rating summary rating view_count year 
-     tagline thumb art duration originally_available_at updated_at).each { |method|
+  Plex::Video::ATTRIBUTES.map {|m| Plex.snake_case(m) }.each { |method|
     it "should correctly respond to ##{method}" do
       @video.send(method.to_sym).must_equal FAKE_VIDEO_NODE_HASH[method.to_sym]
     end
