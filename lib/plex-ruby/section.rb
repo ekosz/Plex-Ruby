@@ -65,10 +65,10 @@ module Plex
     CATEGORIES.each { |method|
       class_eval %(
         def #{Plex.snake_case(method)}s
-          @#{Plex.snake_case(method)}s ||= grab_keys('#{method})'
+          @#{Plex.snake_case(method)}s ||= grab_keys('#{method}')
         end
         def #{Plex.snake_case(method)}s!
-          @#{Plex.snake_case(method)}s = grab_keys('#{method})'
+          @#{Plex.snake_case(method)}s = grab_keys('#{method}')
         end
         def by_#{Plex.snake_case(method)}(val)
           Plex::Parser.new( self, Nokogiri::XML(open(url+key+"/#{method}/\#{val}")) ).parse
