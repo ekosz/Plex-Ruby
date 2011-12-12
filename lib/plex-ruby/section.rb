@@ -5,6 +5,8 @@ module Plex
 
     ATTRIBUTES = %w(refreshing key type title art agent scanner language updatedAt)
 
+    CATEGORIES = %w(collection firstCharacter genre year contentRating folder)
+
     attr_reader *ATTRIBUTES.map {|m| Plex.snake_case(m) }
     attr_reader :library
 
@@ -41,6 +43,39 @@ module Plex
       )
     }
 
+    # Find TV Shows / Episodes by categories
+    #
+    # Format:
+    #    #{category}s        - Grab the keys => title in that category
+    #    #{category}s!       - cache busing version of #{category}s
+    #    by_#{category}(key) - all shows / movies by that key
+    #
+    # Example:
+    #     
+    #     library.section(2).by_year(2008) # List of TV Shows from 2008
+    #     library.section(1).by_first_character("H") # movies starting with 'H'
+    #     library.section(2).genres # Array of Hashes explaining all of the genres
+    #
+    # collection      - I'm not sure
+    # first_character - the first letter of the title of the video
+    # genre           - self explanatory
+    # year            - year first shown
+    # content_rating  - TV-14, TV-MA, etc
+    # folder          - where the video is stored
+    CATEGORIES.each { |method|
+      class_eval %(
+        def #{Plex.snake_case(method)}s
+          @#{Plex.snake_case(method)}s ||= grab_keys('#{method})'
+        end
+        def #{Plex.snake_case(method)}s!
+          @#{Plex.snake_case(method)}s = grab_keys('#{method})'
+        end
+        def by_#{Plex.snake_case(method)}(val)
+          Plex::Parser.new( self, Nokogiri::XML(open(url+key+"/#{method}/\#{val}")) ).parse
+        end
+      )
+    }
+
     def key
       "/library/sections/#{@key}"
     end
@@ -56,6 +91,18 @@ module Plex
         super
       end
     end
+
+    private
+
+    def grab_keys(action)
+      Nokogiri::XML(open(url+key+"/#{action}")).search('Directory').map do |node| 
+        {
+          key: node.attr('key'),
+          title: node.attr('title')
+        }
+      end
+    end
+
 
   end
 end

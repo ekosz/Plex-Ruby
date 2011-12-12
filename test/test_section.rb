@@ -15,4 +15,5 @@ describe Plex::Section do
   it "should remember its parent (library)" do
     @section.library.must_equal @library
   end
+
 end
