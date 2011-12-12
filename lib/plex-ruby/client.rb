@@ -7,14 +7,16 @@ module Plex
     PLAYBACK_METHODS = %w(play pause stop rewind fastForward stepForward 
                           bigStepForward stepBack bigStepBack skipNext skipPrevious)
 
-    ATTRIBUTES = %w(server name host address port machineIdentifier version)
+    ATTRIBUTES = %w(name host address port machineIdentifier version)
 
     attr_reader *ATTRIBUTES.map {|m| Plex.snake_case(m) }
+    attr_reader :server
 
 
     # @param [Server] server this client belongs to
     # @param [Nokogiri::XML::Element] nokogiri element to build from
     def initialize(server, node)
+      @server = server
       ATTRIBUTES.each { |e|
         instance_variable_set("@#{Plex.snake_case(e)}", node.attr(e))
       }

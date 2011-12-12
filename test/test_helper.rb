@@ -26,6 +26,15 @@ class FakeParent
 
 end
 
+FAKE_CLIENT_NODE_HASH = {
+  name: 'koslow.office',
+  host: '10.0.0.24',
+  address: '10.0.0.24',
+  port: '3000',
+  machine_identifier: 'f11283e2-a274-4c86-9a0a-23336c2d9e53',
+  version: '0.9.5.2-06ca164'
+}
+
 FAKE_SHOW_NODE_HASH = {
   Directory: FakeNode.new({
     guid: 'com.plexapp.agents.thetvdb://73545/1?lang=en',
