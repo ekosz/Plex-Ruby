@@ -29,3 +29,18 @@
 
 * Added a test suite that can be run with `rake`
 * I feel this a production ready, will continue to add features
+
+## 1.1.0
+
+* Added `Plex::Section` category methods
+    * ie. `library.section(2).years # [{key: '2008', title: '2008'},...]`
+    * `library.section(1).by_first_letter('H') # [Plex::Movie, ...]`
+    * Read the docs for more info
+
+## 1.1.1
+
+* Fix code breaking bug in 1.1.0
+
+## 1.2.0
+
+* `Plex::Client#play_media` now can take an Object that `responds_to(:key)`

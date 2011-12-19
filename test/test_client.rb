@@ -39,6 +39,14 @@ describe Plex::Client do
     )
   end
 
+  it "should exsept an object that responds to :key for #play_media" do
+    object = Plex::Episode.new(FakeParent.new, '/libary/metadata/6')
+    assert @client.play_media(object)
+    FakeWeb.last_request.path.must_equal(
+      "/system/players/#{@client.name}/application/playMedia?path=#{CGI::escape(@client.url+object.key)}&key=#{CGI::escape(object.key)}"
+    )
+  end
+
   it "should properly commnicate its  #screenshot method" do
     assert @client.screenshot(100, 100, 75)
     FakeWeb.last_request.path.must_equal(

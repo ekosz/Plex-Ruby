@@ -54,14 +54,19 @@ module Plex
 
     # Plays a video that is in the library
     #
-    # @param [String] the key of the video that we want to play.  (see
-    #   Episode#key) (see Movie#key)
+    # @param [String, Object] the key of the video that we want to play.  Or an
+    #   Object that responds to :key (see Episode#key) (see Movie#key)
     # @param [String] no clue what this does, its the Plex Remote Command API though
     # @param [String] no clue what this does, its the Plex Remote Command API though
     # @param [String] no clue what this does, its the Plex Remote Command API though
     # @return [True, nil] true if it worked, nil if something went wrong check
     #   the console for the error message
     def play_media(key, user_agent = nil, http_cookies = nil, view_offset = nil)
+
+      if !key.is_a?(String) && key.respond_to?(:key)
+        key = key.key 
+      end
+
       url = player_url+'/application/playMedia?'
       url += "path=#{CGI::escape(server.url+key)}"
       url += "&key=#{CGI::escape(key)}"

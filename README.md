@@ -50,8 +50,9 @@ shows = section.all # Returns a list of shows/movies
 bsg = shows.select { |s| s.title =~ /Battlestar/ }.first # Pick a great show
 bsg.seasons # array of its seasons
 episodes = bsg.seasons.last.episodes # Array the last seasons episodes
-puts "#{episodes.first.title} - #{episodes.first.summary}" # Looks good
-client.play_media(episodes.first.key) # Play it!
+episode = episodes[4] # The fith episode in the season
+puts "#{episode.title} - #{episode.summary}" # Looks good
+client.play_media(episode) # Play it!
 ```
 
 For a full list of commands check out the [documentation](http://rubydoc.info/github/ekosz/Plex-Ruby/master/frames).
