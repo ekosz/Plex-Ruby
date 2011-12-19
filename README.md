@@ -50,7 +50,7 @@ shows = section.all # Returns a list of shows/movies
 bsg = shows.select { |s| s.title =~ /Battlestar/ }.first # Pick a great show
 bsg.seasons # array of its seasons
 episodes = bsg.seasons.last.episodes # Array the last seasons episodes
-episode = episodes[4] # The fith episode in the season
+episode = episodes[4] # The fifth episode in the season
 puts "#{episode.title} - #{episode.summary}" # Looks good
 client.play_media(episode) # Play it!
 ```
