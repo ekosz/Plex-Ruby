@@ -1,13 +1,19 @@
 require 'test_helper'
 
+class TestSeason < Plex::Season
+  def initialize(parent, key)
+    @xml_doc = FakeNode.new(FAKE_SEASON_NODE_HASH)
+    super(parent, key)
+  end
+end
+
 describe Plex::Season do
   before do
     @show = FakeParent.new
-    @season = Plex::Season.new(@show, '/library/metadata/10')
-    @season.instance_variable_set("@xml_doc", FakeNode.new(FAKE_SEASON_NODE_HASH))
+    @season = TestSeason.new(@show, '/library/metadata/10')
   end
 
-  Plex::Season::ATTRIBUTES.map{|m| Plex.snake_case(m)}.each { |method|
+  Plex::Season::ATTRIBUTES.map{|m| Plex.underscore(m)}.each { |method|
     it "should properly respond to ##{method}" do
       @season.send(method.to_sym).must_equal FAKE_SEASON_NODE_HASH[:Directory].attr(method)
     end

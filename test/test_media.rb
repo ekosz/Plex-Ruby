@@ -5,7 +5,7 @@ describe Plex::Media do
     @media = Plex::Media.new( FakeNode.new(FAKE_MEDIA_NODE_HASH) )
   end
 
-  Plex::Media::ATTRIBUTES.map {|m| Plex.snake_case(m) }.each { |method|
+  Plex::Media::ATTRIBUTES.map {|m| Plex.underscore(m) }.each { |method|
     it "should properly respond to ##{method}" do
       @media.send(method.to_sym).must_equal FAKE_MEDIA_NODE_HASH[method.to_sym]
     end

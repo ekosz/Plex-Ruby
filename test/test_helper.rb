@@ -1,6 +1,18 @@
 require 'plex-ruby'
 require 'minitest/autorun'
 
+class FakeAttr
+
+  def initialize(val)
+    @val = val
+  end
+
+  def value
+    @val
+  end
+
+end
+
 
 class FakeNode
 
@@ -9,7 +21,13 @@ class FakeNode
   end
 
   def attr(value)
-    @hash[Plex.snake_case(value).to_sym]
+    @hash[Plex.underscore(value).to_sym]
+  end
+
+  def attributes
+    @hash.each_with_object({}) do |(key, val), obj| 
+      obj[Plex.camelize(key)] = FakeAttr.new(val) 
+    end
   end
 
   def search(value)
@@ -37,41 +55,43 @@ FAKE_CLIENT_NODE_HASH = {
 
 FAKE_SHOW_NODE_HASH = {
   Directory: FakeNode.new({
-    guid: 'com.plexapp.agents.thetvdb://73545/1?lang=en',
-    studio: 'Big Dog',
-    title: 'Friends',
-    content_rating: 'MV-14',
-    summary: '3 friends go on an adventure',
-    index: '1',
-    rating: '10',
-    year: '3033',
-    thumb: '/file/path.jpg',
-    art: '/other/file/path.png',
-    banner: '/yet/another/file/path.jpg2000',
-    theme: 'Chrismasy?',
-    duration: '2345234',
-    originally_available_at: '1323213639',
-    leaf_count: '1',
-    viewed_leaf_count: '0',
-    added_at: '1323213639',
-    updated_at: '1323220437',
+    rating_key: "9",
+    guid: "com.plexapp.agents.thetvdb://73545?lang=en",
+    studio: "SciFi",
+    type: "show",
+    title: "Battlestar Galactica (2003)",
+    content_rating: "TV-14",
+    summary: "In a distant part of the universe, a civilization of humans live on planets known as the Twelve Colonies. In the past, the Colonies have been at war with a cybernetic race known as the Cylons. 40 years after the first war the Cylons launch a devastating attack on the Colonies. The only military ship that survived the attack takes up the task of leading a small fugitive fleet of survivors into space in search of a fabled refuge known as Earth.",
+    index: "1",
+    rating: "9.3",
+    year: "2003",
+    thumb: "/library/metadata/9/thumb?t=1323220437",
+    art: "/library/metadata/9/art?t=1323220437",
+    banner: "/library/metadata/9/banner?t=1323220437",
+    theme: "/library/metadata/9/theme?t=1323220437",
+    duration: "3600000",
+    originally_available_at: "2003-12-08",
+    leaf_count: "13",
+    viewed_leaf_count: "0",
+    added_at: "1323213639",
+    updated_at: "1323220437"
   })
 }
 
 FAKE_SEASON_NODE_HASH = {
   Directory: FakeNode.new({
-    key: '/library/metadata/10/children',
-    rating_key: '10',
-    guid: 'com.plexapp.agents.thetvdb://73545/1?lang=en', 
-    type: 'season',
-    title: 'Season 1',
-    summary: '',
-    index: '1',
-    thumb: '/library/metadata/10/thumb?t=1323220437',
-    leaf_count: '13',
-    viewed_leaf_count: '0',
-    added_at: '1323213639',
-    updated_at: '1323220437'
+    rating_key: "10",
+    key: "/library/metadata/10/children",
+    guid: "com.plexapp.agents.thetvdb://73545/1?lang=en",
+    type: "season",
+    title: "Season 1",
+    summary: "",
+    index: "1",
+    thumb: "/library/metadata/10/thumb?t=1323220437",
+    leaf_count: "13",
+    viewed_leaf_count: "0",
+    added_at: "1323213639",
+    updated_at: "1323220437"
   })
 }
 

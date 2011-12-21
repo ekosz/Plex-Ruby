@@ -13,7 +13,7 @@ describe Plex::Movie do
       "@video", fake_video
     )
 
-    (Plex::Video::ATTRIBUTES - %w(key)).map {|m| Plex.snake_case(m) }.each { |method|
+    (Plex::Video::ATTRIBUTES - %w(key)).map {|m| Plex.underscore(m) }.each { |method|
       @movie.send(method.to_sym).must_equal fake_video.send(method.to_sym)
     }
     

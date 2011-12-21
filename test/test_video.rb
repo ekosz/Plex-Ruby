@@ -6,14 +6,14 @@ describe Plex::Video do
     @video = Plex::Video.new( FakeNode.new(FAKE_VIDEO_NODE_HASH) )
   end
 
-  Plex::Video::ATTRIBUTES.map {|m| Plex.snake_case(m) }.each { |method|
+  Plex::Video::ATTRIBUTES.map {|m| Plex.underscore(m) }.each { |method|
     it "should correctly respond to ##{method}" do
       @video.send(method.to_sym).must_equal FAKE_VIDEO_NODE_HASH[method.to_sym]
     end
   }
   
   it "should correctly referance its media object" do
-    @video.media.must_equal Plex::Media.new(FAKE_VIDEO_NODE_HASH[:Media])
+    @video.instance_variable_get("@media").must_equal Plex::Media.new(FAKE_VIDEO_NODE_HASH[:Media])
   end
 
   it "should correctly referance its genre objects" do

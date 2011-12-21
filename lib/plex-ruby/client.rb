@@ -9,7 +9,7 @@ module Plex
 
     ATTRIBUTES = %w(name host address port machineIdentifier version)
 
-    attr_reader *ATTRIBUTES.map {|m| Plex.snake_case(m) }
+    attr_reader *ATTRIBUTES.map {|m| Plex.underscore(m) }
     attr_reader :server
 
 
@@ -18,7 +18,7 @@ module Plex
     def initialize(server, node)
       @server = server
       ATTRIBUTES.each { |e|
-        instance_variable_set("@#{Plex.snake_case(e)}", node.attr(e))
+        instance_variable_set("@#{Plex.underscore(e)}", node.attr(e))
       }
     end
 
@@ -29,7 +29,7 @@ module Plex
     #   the console for the error message
     NAV_METHODS.each { |nav|
       class_eval %(
-        def #{Plex.snake_case(nav)}
+        def #{Plex.underscore(nav)}
           ping player_url+'/navigation/#{nav}'
         end
       )
@@ -42,7 +42,7 @@ module Plex
     #   the console for the error message
     PLAYBACK_METHODS.each { |playback|
       class_eval %(
-        def #{Plex.snake_case(playback)}
+        def #{Plex.underscore(playback)}
           ping player_url+'/playback/#{playback}'
         end
       )

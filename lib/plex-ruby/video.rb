@@ -5,15 +5,16 @@ module Plex
                     rating viewCount year tagline thumb art duration 
                     originallyAvailableAt updatedAt)
       
-    attr_reader *ATTRIBUTES.map {|m| Plex.snake_case(m) }
     attr_reader :media, :genres, :writers, :directors, :roles
 
     # @param [Nokogiri::XML::Element] nokogiri element that represents this
     #   Video
     def initialize(node)
-      ATTRIBUTES.each { |e|
-        instance_variable_set("@#{Plex.snake_case(e)}", node.attr(e))
-      }
+      node.attributes.each do |method, val|
+        define_singleton_method(Plex.underscore(method).to_sym) do
+          val.value
+        end
+      end
 
       @media      = Plex::Media.new(node.search('Media').first)
       @genres     = node.search('Genre').map    { |m| Plex::Genre.new(m)    }

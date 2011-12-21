@@ -13,15 +13,15 @@ describe Plex::Client do
   end
 
   Plex::Client::NAV_METHODS.each { |method|
-    it "should properly communicate its ##{Plex.snake_case(method)} method" do
-      assert @client.send(Plex.snake_case(method).to_sym)
+    it "should properly communicate its ##{Plex.underscore(method)} method" do
+      assert @client.send(Plex.underscore(method).to_sym)
       FakeWeb.last_request.path.must_equal "/system/players/#{@client.name}/navigation/#{method}"
     end
   }
 
   Plex::Client::PLAYBACK_METHODS.each { |method|
-    it "should properly communicate its ##{Plex.snake_case(method)} method" do
-      assert @client.send(Plex.snake_case(method).to_sym)
+    it "should properly communicate its ##{Plex.underscore(method)} method" do
+      assert @client.send(Plex.underscore(method).to_sym)
       FakeWeb.last_request.path.must_equal "/system/players/#{@client.name}/playback/#{method}"
     end
   }

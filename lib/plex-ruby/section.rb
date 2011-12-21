@@ -7,7 +7,7 @@ module Plex
 
     CATEGORIES = %w(collection firstCharacter genre year contentRating folder)
 
-    attr_reader *ATTRIBUTES.map {|m| Plex.snake_case(m) }
+    attr_reader *ATTRIBUTES.map {|m| Plex.underscore(m) }
     attr_reader :library
 
     # @param [Library] library this Section belongs to
@@ -16,7 +16,7 @@ module Plex
     def initialize(library, node)
       @library = library
       ATTRIBUTES.each { |e|
-        instance_variable_set("@#{Plex.snake_case(e)}", node.attr(e))
+        instance_variable_set("@#{Plex.underscore(e)}", node.attr(e))
       }
     end
 
@@ -37,7 +37,7 @@ module Plex
     # @return [Array] list of Shows or Movies in that group
     GROUPS.each { |method|
       class_eval %(
-        def #{Plex.snake_case(method)}
+        def #{Plex.underscore(method)}
           Plex::Parser.new( self, Nokogiri::XML(open(url+key+'/#{method}')) ).parse
         end
       )
@@ -64,13 +64,13 @@ module Plex
     # folder          - where the video is stored
     CATEGORIES.each { |method|
       class_eval %(
-        def #{Plex.snake_case(method)}s
-          @#{Plex.snake_case(method)}s ||= grab_keys('#{method}')
+        def #{Plex.underscore(method)}s
+          @#{Plex.underscore(method)}s ||= grab_keys('#{method}')
         end
-        def #{Plex.snake_case(method)}s!
-          @#{Plex.snake_case(method)}s = grab_keys('#{method}')
+        def #{Plex.underscore(method)}s!
+          @#{Plex.underscore(method)}s = grab_keys('#{method}')
         end
-        def by_#{Plex.snake_case(method)}(val)
+        def by_#{Plex.underscore(method)}(val)
           Plex::Parser.new( self, Nokogiri::XML(open(url+key+"/#{method}/\#{val}")) ).parse
         end
       )

@@ -12,20 +12,17 @@ module Plex
     def initialize(show, key)
       @show = show
       @key = key
-    end
 
-    # A Season has a key, which allows us to do lazy loading.  A season will
-    # not be fully loaded unless one of its attributes is called.  Then the
-    # Season will load itself from its key. Once loaded it caches its self.
-    # For every attribute there is a cache busting version wich is just the
-    # name of the attribute followed by '!'. For exsample <tt>season.type</tt>
-    # and <tt>season.type!</tt>
-    ATTRIBUTES.each { |method|
-      class_eval %(
-        def #{Plex.snake_case(method)}; directory.attr('#{method}') end
-        def #{Plex.snake_case(method)}!; directory!.attr('#{method}') end
-      )
-    }
+      directory.attributes.each do |method, val|
+        define_singleton_method(Plex.underscore(method).to_sym) do
+          val.value
+        end
+        define_singleton_method(Plex.underscore(method+'!').to_sym) do
+          puts "Plex::Season##{Plex.underscore(method+'!')} IS DEPRECATED! Use Plex::Season##{Plex.underscore(method)} instead."
+          self.send(Plex.underscore(method))
+        end
+      end
+    end
 
     # Returns the list of episodes in the library that are a part of this Season
     #
@@ -34,9 +31,12 @@ module Plex
       @episodes ||= episodes_from_video(children)
     end
 
-    # Cache busting version of #episodes
-    def episodes!
-      @episodes = episodes_from_video(children!)
+    # Select a particular episode
+    #
+    # @param [Fixnum, String] episode index number
+    # @return [Episode] episode with the index of number
+    def episode(number)
+      episodes.select { |epi| epi.index.to_i == number.to_i }.first
     end
 
     def url
@@ -65,16 +65,8 @@ module Plex
       @xml_doc ||= base_doc
     end
 
-    def xml_doc!
-      @xml_doc = base_doc
-    end
-
     def children 
       @children ||= base_children_doc
-    end
-
-    def children!
-      @children = base_children_doc 
     end
 
     def episodes_from_video(node)
@@ -83,10 +75,6 @@ module Plex
 
     def directory
       @directory ||= xml_doc.search("Directory").first
-    end
-
-    def directory!
-      @directory = xml_doc!.search("Directory").first
     end
 
   end

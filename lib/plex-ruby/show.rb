@@ -1,10 +1,9 @@
 module Plex
-  # Found at /library/metadata/:key
   class Show
 
-    ATTRIBUTES = %w(guid studio title contentRating summary index rating year thumb 
-                    art banner theme duration originallyAvailableAt leafCount 
-                    viewedLeafCount addedAt updatedAt)
+    ATTRIBUTES = %w(ratingKey guid studio type title contentRating summary index 
+                    rating year thumb art leafCount viewedLeafCount addedAt 
+                    updatedAt)
 
     attr_reader :section, :key
 
@@ -13,17 +12,17 @@ module Plex
     def initialize(section, key)
       @section = section
       @key = key
-    end
 
-    # A Show has a key, which allows us to do lazy loading.  A Show will
-    # not be fully loaded unless one of its attributes is called.  Then the
-    # Show will load itself from its key. Once loaded it caches its self.
-    ATTRIBUTES.each { |method|
-      class_eval %(
-        def #{Plex.snake_case(method)}; @#{method} ||= directory.attr('#{method}') end
-        def #{Plex.snake_case(method)}!; @#{method} = directory!.attr('#{method}') end
-      )
-    }
+      directory.attributes.each do |method, val|
+        define_singleton_method(Plex.underscore(method).to_sym) do
+          val.value
+        end
+        define_singleton_method(Plex.underscore(method+'!').to_sym) do
+          puts "Plex::Show##{Plex.underscore(method+'!')} IS DEPRECATED! Use Plex::Show##{Plex.underscore(method)} instead."
+          self.send(Plex.underscore(method))
+        end
+      end
+    end
 
     # The list of seasons in the library that belong to this Show
     #
@@ -32,8 +31,12 @@ module Plex
       @seasons ||= search_children children
     end
 
-    def seasons!
-      @seasons = search_children children!
+    # Select a particular season
+    #
+    # @param [Fixnum, String] season index number
+    # @return [Season] season with the index of number
+    def season(number)
+      seasons.select { |sea| sea.index.to_i == sea.to_i }.first
     end
 
     def url
@@ -62,30 +65,22 @@ module Plex
       @xml_doc ||= base_doc
     end
     
-    def xml_doc!
-      @xml_doc = base_doc
-    end
-
     def children
       @children ||= children_base
-    end
-
-    def children!
-      @children = children_base
     end
 
     def directory
       @directory ||= xml_doc.search('Directory').first
     end
 
-    def directory!
-      @directory = xml_doc!.search('Directory').first
-    end
-
     def search_children(node)
       node.search('Directory').map do |season|
-        Plex::Season.new(self, season.attr('key')[0..-10]) # Remove /children
+        plex_season.new(self, season.attr('key')[0..-10]) # Remove /children
       end
+    end
+
+    def plex_season
+      @plex_season ||= Plex::Season
     end
 
   end

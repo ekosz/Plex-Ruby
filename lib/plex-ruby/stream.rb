@@ -3,14 +3,14 @@ module Plex
 
     ATTRIBUTES = %w(id streamType codec index language languageCode)
 
-    attr_reader *ATTRIBUTES.map {|m| Plex.snake_case(m) }
-
     # @param [Nokogiri::XML::Element] nokogiri element that represents this
     #   Stream
     def initialize(node)
-      ATTRIBUTES.each { |e|
-        instance_variable_set("@#{Plex.snake_case(e)}", node.attr(e))
-      }
+      node.attributes.each do |method, val|
+        define_singleton_method(Plex.underscore(method).to_sym) do
+          val.value
+        end
+      end
     end
 
     def ==(other)
