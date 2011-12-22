@@ -44,3 +44,12 @@
 ## 1.2.0
 
 * `Plex::Client#play_media` now can take an Object that `responds_to(:key)`
+
+## 1.3.0
+
+* snake_case() -> underscore()
+* Added Plex class method `camalize`
+* Added singular season and episode methods
+* Attribute methods are now dynamicly created in the initializer.  This gets ride of 
+  the lazy loading, but allows this gem to grow with Plex without having to update
+  the code everytime the API changes.
