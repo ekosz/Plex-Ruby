@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Eric Koslow"]
   s.email       = ["ekoslow@gmail.com"]
   s.homepage    = "https://github.com/ekosz/Plex-Ruby"
-  s.summary     = %q{Plex APIs in easy ruby code}
-  s.description = %q{Extracts the Plex API into easy to write ruby code}
+  s.summary     = %q{Plex Media Server APIs in easy ruby code}
+  s.description = %q{Extracts the Plex Media Server API into easy to write ruby code}
 
   s.rubyforge_project = "plex-ruby"
 

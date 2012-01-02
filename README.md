@@ -1,6 +1,6 @@
-# Plex-Ruby [![Build Status](https://secure.travis-ci.org/ekosz/Plex-Ruby.png)](https://secure.travis-ci.org/ekosz/Plex-Ruby.png)
+# Plex-Ruby [![Build Status](https://secure.travis-ci.org/ekosz/Plex-Ruby)](https://secure.travis-ci.org/ekosz/Plex-Ruby.png)
 
-A handy gem for working with Plex within Ruby.  Tries to emulate and document
+A handy gem for working with [Plex Media Player](http://plexapp.com) within Ruby.  Tries to emulate and document
 all of the Plex APIs using simple ruby code.  I will try and keep it as
 up-to-date as possible, but pull requests are always welcomed.
 
