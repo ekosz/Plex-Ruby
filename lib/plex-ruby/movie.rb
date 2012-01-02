@@ -10,7 +10,7 @@ module Plex
       @key = key
     end
 
-    def url
+    def url #:nodoc:
       section.url
     end
 
@@ -22,6 +22,10 @@ module Plex
       else
         super
       end
+    end
+
+    def inspect #:nodoc:
+      "#<Plex::Movie: key=\"#{key}\" title=\"#{title}\">"
     end
 
     private

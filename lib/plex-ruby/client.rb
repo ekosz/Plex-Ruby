@@ -120,8 +120,12 @@ module Plex
       ping player_url+"/application/sendVirtualKey?code=#{CGI::escape(code.to_s)}"
     end
 
-    def url
+    def url #:nodoc:
       server.url
+    end
+
+    def inspect #:nodoc:
+      "#<Plex::Client: name=\"#{name}\" host=\"#{host}\" port=\"#{port}\">"
     end
 
     private

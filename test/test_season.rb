@@ -28,6 +28,14 @@ describe Plex::Season do
     )
   end
 
+  it "should return a spesific show" do
+    @season.instance_variable_set(
+      "@children", FakeNode.new({Video: FakeNode.new(FAKE_VIDEO_NODE_HASH)})
+    )
+    @season.instance_variable_set( "@plex_episode", TestEpisode )
+    @season.episode(1).must_equal @season.episodes.first
+  end
+
   it "should remember its parent (show)" do
     @season.show.must_equal @show
   end

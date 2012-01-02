@@ -183,6 +183,7 @@ FAKE_VIDEO_NODE_HASH = {
   duration: '3400', 
   originally_available_at: '324124', 
   updated_at: '342214', 
+  index: '1',
   Media: FakeNode.new( FAKE_MEDIA_NODE_HASH ), 
   Genre: FakeNode.new( FAKE_GENRE_NODE_HASH ), 
   Writer: FakeNode.new( FAKE_WRITER_NODE_HASH ),

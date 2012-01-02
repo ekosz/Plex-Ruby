@@ -53,3 +53,9 @@
 * Attribute methods are now dynamicly created in the initializer.  This gets ride of 
   the lazy loading, but allows this gem to grow with Plex without having to update
   the code everytime the API changes.
+
+## 1.3.1
+
+* Got rid of stdout garbage
+* Fixed `Show#season` not working
+* Added tests

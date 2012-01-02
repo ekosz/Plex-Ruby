@@ -39,16 +39,20 @@ module Plex
       episodes.select { |epi| epi.index.to_i == number.to_i }.first
     end
 
-    def url
+    def url #:nodoc:
       show.url
     end
 
-    def ==(other)
+    def ==(other) #:nodoc:
       if other.is_a? Plex::Season
         key == other.key
       else
         super
       end
+    end
+
+    def inspect #:nodoc:
+      "#<Plex::Season: key=\"#{key}\" title=\"#{title}\" index=\"#{index}\" show=\"#{show.title}\">"
     end
 
     private
@@ -70,11 +74,15 @@ module Plex
     end
 
     def episodes_from_video(node)
-      node.search("Video").map { |m| Plex::Episode.new(self, m.attr('key')) }
+      node.search("Video").map { |m| plex_episode.new(self, m.attr('key')) }
     end
 
     def directory
       @directory ||= xml_doc.search("Directory").first
+    end
+
+    def plex_episode
+      @plex_episode ||= Plex::Episode
     end
 
   end

@@ -27,8 +27,12 @@ module Plex
       @clients = search_clients clients_doc!
     end
 
-    def url
+    def url #:nodoc:
       "http://#{host}:#{port}"
+    end
+
+    def inspect #:nodoc:
+      "#<Plex::Server: host=#{host} port=#{port}>"
     end
 
     private

@@ -1,5 +1,12 @@
 require 'test_helper'
 
+class TestEpisode < Plex::Episode
+  def initialize(parent, key)
+    @xml_doc = FakeNode.new({Video: FakeNode.new(FAKE_VIDEO_NODE_HASH)})
+    super(parent, key)
+  end
+end
+
 describe Plex::Episode do
 
   before do

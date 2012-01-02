@@ -36,19 +36,23 @@ module Plex
     # @param [Fixnum, String] season index number
     # @return [Season] season with the index of number
     def season(number)
-      seasons.select { |sea| sea.index.to_i == sea.to_i }.first
+      seasons.select { |sea| sea.index.to_i == number.to_i }.first
     end
 
-    def url
+    def url #:nodoc:
       section.url
     end
 
-    def ==(other)
+    def ==(other) #:nodoc:
       if other.is_a? Plex::Show
         key == other.key
       else
         super
       end
+    end
+
+    def inspect #:nodoc:
+      "#<Plex::Show: key=\"#{key}\" title=\"#{title}\">"
     end
 
     private

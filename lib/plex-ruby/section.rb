@@ -76,20 +76,24 @@ module Plex
       )
     }
 
-    def key
+    def key #:nodoc:
       "/library/sections/#{@key}"
     end
     
-    def url
+    def url #:nodoc:
       library.url
     end
 
-    def ==(other)
+    def ==(other) #:nodoc:
       if other.is_a? Plex::Section
         key == other.key
       else
         super
       end
+    end
+
+    def inspect #:nodoc:
+      "#<Plex::Section: key=\"#{key}\" type=\"#{type}\" title=\"#{title}\">"
     end
 
     private
