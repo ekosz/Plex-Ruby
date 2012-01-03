@@ -33,14 +33,17 @@ module Plex
       @sections = search_sections(xml_doc!)
     end
 
+    # @private
     def key #:nodoc:
       "/library/sections"
     end
 
+    # @private
     def url #:nodoc:
       server.url
     end
 
+    # @private
     def ==(other) #:nodoc:
       if other.is_a? Library
         server == other.server
@@ -49,6 +52,7 @@ module Plex
       end
     end
 
+    # @private
     def inspect #:nodoc:
       "#<Plex::Libary: server=#{server.inspect}>"
     end

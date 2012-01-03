@@ -36,13 +36,29 @@ module Plex
     # @param [Fixnum, String] episode index number
     # @return [Episode] episode with the index of number
     def episode(number)
-      episodes.select { |epi| epi.index.to_i == number.to_i }.first
+      episodes.detect { |epi| epi.index.to_i == number.to_i }
     end
 
+    # Selects the first episode of this season that is on the Plex Server
+    #
+    # @return [Episode] episode with the lowest index
+    def first_episode
+      episodes.inject { |a, b| a.index < b.index ? a : b }
+    end
+
+    # Selects the last episode  of this season that is on the Plex Server
+    #
+    # @return [Episode] episode with the highest index
+    def last_episode
+      episodes.inject { |a, b| a.index > b.index ? a : b }
+    end
+
+    # @private
     def url #:nodoc:
       show.url
     end
 
+    # @private
     def ==(other) #:nodoc:
       if other.is_a? Plex::Season
         key == other.key
@@ -51,6 +67,7 @@ module Plex
       end
     end
 
+    # @private
     def inspect #:nodoc:
       "#<Plex::Season: key=\"#{key}\" title=\"#{title}\" index=\"#{index}\" show=\"#{show.title}\">"
     end

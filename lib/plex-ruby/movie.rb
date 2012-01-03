@@ -10,10 +10,6 @@ module Plex
       @key = key
     end
 
-    def url #:nodoc:
-      section.url
-    end
-
     # Delegates all method calls to the video object that represents this
     # movie, if that video object responds to the method.
     def method_missing(method, *args, &block)
@@ -24,6 +20,12 @@ module Plex
       end
     end
 
+    # @private
+    def url #:nodoc:
+      section.url
+    end
+
+    # @private
     def inspect #:nodoc:
       "#<Plex::Movie: key=\"#{key}\" title=\"#{title}\">"
     end

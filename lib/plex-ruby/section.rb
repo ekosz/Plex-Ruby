@@ -76,14 +76,17 @@ module Plex
       )
     }
 
+    # @private
     def key #:nodoc:
       "/library/sections/#{@key}"
     end
     
+    # @private
     def url #:nodoc:
       library.url
     end
 
+    # @private
     def ==(other) #:nodoc:
       if other.is_a? Plex::Section
         key == other.key
@@ -92,6 +95,7 @@ module Plex
       end
     end
 
+    # @private
     def inspect #:nodoc:
       "#<Plex::Section: key=\"#{key}\" type=\"#{type}\" title=\"#{title}\">"
     end

@@ -26,7 +26,7 @@ lesser versions of Ruby.
 
 ## Usage
 
-Everything Stems from the Plex MediaServer. Create a server with the host and
+Everything Stems from the Plex Media Server. Create a server with the host and
 port number.
 
 ```ruby
@@ -45,13 +45,13 @@ Lets search the libary.
 
 ```ruby
 sections = server.library.sections
-section =                                                 # Pick the section you want I.E. TV, Movies, Home Videos
-shows = section.all                                       # Returns a list of shows/movies
-bsg = shows.select { |s| s.title =~ /Battlestar/ }.first  # Pick a great show
-season = bsg.seasons.last                                 # Pick the last season
-episode = season.episode(5)                               # The fifth episode in the season
-puts "#{episode.title} - #{episode.summary}"              # Looks good
-client.play_media(episode)                                # Play it!
+section =                                           # Pick the section you want I.E. TV, Movies, Home Videos
+shows = section.all                                 # Returns a list of shows/movies
+bsg = shows.detect { |s| s.title =~ /Battlestar/ }  # Pick a great show
+season = bsg.last_season                            # Pick the last season
+episode = season.episode(5)                         # The fifth episode in the season
+puts "#{episode.title} - #{episode.summary}"        # Looks good
+client.play_media(episode)                          # Play it!
 ```
 
 For a full list of commands check out the [documentation](http://rubydoc.info/github/ekosz/Plex-Ruby/master/frames).

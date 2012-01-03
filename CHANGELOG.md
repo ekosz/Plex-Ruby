@@ -22,7 +22,7 @@
 
 ## 0.3.1
 
-* Fix `gem install plex-ruby`, require `open-uri` as a runtime dependecy 
+* Fix `gem install plex-ruby`, require `open-uri` as a runtime dependency 
   wasn't a good idea
 
 ## 1.0.0
@@ -50,12 +50,27 @@
 * snake_case() -> underscore()
 * Added Plex class method `camalize`
 * Added singular season and episode methods
-* Attribute methods are now dynamicly created in the initializer.  This gets ride of 
+* Attribute methods are now dynamically created in the initializer.  This gets ride of 
   the lazy loading, but allows this gem to grow with Plex without having to update
-  the code everytime the API changes.
+  the code every time the API changes.
 
 ## 1.3.1
 
 * Got rid of stdout garbage
 * Fixed `Show#season` not working
 * Added tests
+
+## 1.4.0
+
+* Switched from Array#select().first to Array#detect for performance
+* Plex::Season helper methods
+    * #first_episode
+    * #last_episode
+* Plex::Show helper methods
+    * #first_season
+    * #last_season
+    * #special_season
+    * #first_episode
+    * #last_episode
+* Updated Readme to use new helper methods
+* Cleaned up docs by adding @private to internal public methods

@@ -20,10 +20,12 @@ module Plex
       end
     end
 
+    # @private
     def url #:nodoc:
       season.url
     end
 
+    # @private
     def ==(other) #:nodoc:
       if other.is_a? Plex::Episode
         key == other.key
@@ -32,6 +34,7 @@ module Plex
       end
     end
 
+    # @private
     def inspect #:nodoc:
       "#<Plex::Episode key=\"#{key}\" title=\"#{title}\" index=\"#{index}\" season=\"#{season.index}\" show=\"#{season.show.title}\">"
     end
