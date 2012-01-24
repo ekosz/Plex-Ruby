@@ -60,7 +60,7 @@ module Plex
     #
     # @return [Season] season with the highest index
     def last_season
-      seasons.inject { |a, b| a.index > b.index ? a : b }
+      seasons.max_by { |s| s.index.to_i }
     end
 
     # Selects the first episode of this show that is on the Plex Server
