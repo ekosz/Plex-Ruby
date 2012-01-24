@@ -53,14 +53,14 @@ module Plex
     #
     # @return [Season] season with the lowest index (but not 0)
     def first_season
-      seasons.inject { |a, b| a.index < b.index && a.index > 0 ? a : b }
+      seasons.inject { |a, b| a.index.to_i < b.index.to_i && a.index.to_i > 0 ? a : b }
     end
 
     # Selects the last season of this show that is on the Plex Server
     #
     # @return [Season] season with the highest index
     def last_season
-      seasons.inject { |a, b| a.index > b.index ? a : b }
+      seasons.max_by { |s| s.index.to_i }
     end
 
     # Selects the first episode of this show that is on the Plex Server
