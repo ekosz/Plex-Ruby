@@ -5,12 +5,14 @@ module Plex
                     rating viewCount year tagline thumb art duration 
                     originallyAvailableAt updatedAt)
       
-    attr_reader :media, :genres, :writers, :directors, :roles
+    attr_reader :media, :genres, :writers, :directors, :roles, :attribute_hash
 
     # @param [Nokogiri::XML::Element] nokogiri element that represents this
     #   Video
     def initialize(node)
+      @attribute_hash = {}
       node.attributes.each do |method, val|
+        @attribute_hash[Plex.underscore(method)] = val.value
         define_singleton_method(Plex.underscore(method).to_sym) do
           val.value
         end

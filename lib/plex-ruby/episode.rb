@@ -9,6 +9,11 @@ module Plex
       @season = season
       @key = key
     end
+
+    # Returns the attribute hash that represents this Episode
+    def attribute_hash
+      video.attribute_hash.merge({'key' => key})
+    end
     
     # Delegates all method calls to the video object that represents this
     # episode, if that video object responds to the method.
@@ -18,6 +23,14 @@ module Plex
       else
         super
       end
+    end
+
+    def respond_to?(method)
+      super || video.respond_to?(method)
+    end
+
+    def methods
+      (super + video.methods).uniq
     end
 
     # @private

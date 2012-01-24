@@ -5,15 +5,17 @@ module Plex
     ATTRIBUTES = %w(ratingKey guid type title summary index thumb leafCount 
                     viewedLeafCount addedAt updatedAt) 
 
-    attr_reader :show, :key
+    attr_reader :show, :key, :attribute_hash
 
     # @param [Show] show this Season belongs to
     # @param [String] key to later grab this Season from
     def initialize(show, key)
       @show = show
       @key = key
+      @attribute_hash = {}
 
       directory.attributes.each do |method, val|
+        @attribute_hash[Plex.underscore(method)] = val.value
         define_singleton_method(Plex.underscore(method).to_sym) do
           val.value
         end
@@ -22,6 +24,8 @@ module Plex
           self.send(Plex.underscore(method))
         end
       end
+
+      @attribute_hash.merge({'key' => @key})
     end
 
     # Returns the list of episodes in the library that are a part of this Season
