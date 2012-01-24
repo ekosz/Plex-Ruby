@@ -54,6 +54,28 @@ puts "#{episode.title} - #{episode.summary}"        # Looks good
 client.play_media(episode)                          # Play it!
 ```
 
+You can also use the `attribute_hash` method on an object to get a full list of
+attributes.
+
+```ruby
+pp episode.attribute_hash
+#=>
+#{"rating_key"=>"23",
+# "key"=>"/library/metadata/23",
+# "guid"=>"com.plexapp.agents.thetvdb://73545/1/13?lang=en",
+# "type"=>"episode",
+# "title"=>"Kobol's Last Gleaming (2)",
+# "summary"=>
+#  "When Commander Adama learns that Kara disobeyed orders and Jumped to Caprica on orders from President Roslin, he demands the president's resignation, with the implied threat of a military coup. Roslin refuses his demand and sparks a confrontation.",
+# "index"=>"13",
+# "rating"=>"8.3",
+# "year"=>"2005",
+# "thumb"=>"/library/metadata/23/thumb?t=1323220437",
+# "originally_available_at"=>"2005-01-24",
+# "added_at"=>"1323213639",
+# "updated_at"=>"1323220437"}
+```
+
 For a full list of commands check out the [documentation](http://rubydoc.info/github/ekosz/Plex-Ruby/master/frames).
 
 ## Development
