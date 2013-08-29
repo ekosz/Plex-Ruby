@@ -33,6 +33,22 @@ module Plex
       @sections = search_sections(xml_doc!)
     end
 
+    # Set the video as watched
+    #
+    # @param [Video] video to be set as watched
+    def watched(video)
+      command = "/:/scrobble?identifier=com.plexapp.plugins.library&key="
+      open(url+command+video.rating_key)
+    end
+
+    # Set the video as unwatched
+    #
+    # @param [Video] video to be set as unwatched
+    def unwatched(video)
+      command = "/:/unscrobble?identifier=com.plexapp.plugins.library&key="
+      open(url+command+video.rating_key)
+    end
+
     # @private
     def key #:nodoc:
       "/library/sections"
