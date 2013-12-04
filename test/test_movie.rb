@@ -16,8 +16,8 @@ describe Plex::Movie do
     (Plex::Video::ATTRIBUTES - %w(key)).map {|m| Plex.underscore(m) }.each { |method|
       @movie.send(method.to_sym).must_equal fake_video.send(method.to_sym)
     }
-    
-    @movie.media.must_equal fake_video.media
+
+    @movie.medias.must_equal fake_video.medias
 
     @movie.genres.must_equal fake_video.genres
 
