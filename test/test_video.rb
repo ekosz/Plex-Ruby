@@ -11,9 +11,9 @@ describe Plex::Video do
       @video.send(method.to_sym).must_equal FAKE_VIDEO_NODE_HASH[method.to_sym]
     end
   }
-  
+
   it "should correctly referance its media object" do
-    @video.instance_variable_get("@media").must_equal Plex::Media.new(FAKE_VIDEO_NODE_HASH[:Media])
+    @video.instance_variable_get("@medias").must_equal Array( Plex::Media.new(FAKE_VIDEO_NODE_HASH[:Media]) )
   end
 
   it "should correctly referance its genre objects" do

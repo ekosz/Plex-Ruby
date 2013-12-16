@@ -23,8 +23,8 @@ describe Plex::Episode do
     (Plex::Video::ATTRIBUTES - %w(key)).map {|m| Plex.underscore(m) }.each { |method|
       @episode.send(method.to_sym).must_equal fake_video.send(method.to_sym)
     }
-    
-    @episode.media.must_equal fake_video.media
+
+    @episode.medias.must_equal fake_video.medias
 
     @episode.genres.must_equal fake_video.genres
 
