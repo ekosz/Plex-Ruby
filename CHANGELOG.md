@@ -1,3 +1,6 @@
+## 1.5.1
+* `Plex::Video` now supports multiple media entries (`@media` renamed to `@medias`)
+
 ## 1.5.0
 
 * Fixed `first_*` and `last_*` helper methods to compare `index.to_i` instead
