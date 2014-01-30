@@ -39,6 +39,11 @@ module Plex
     end
 
     # @private
+    def plex_token #:nodoc:
+      section.plex_token
+    end
+
+    # @private
     def inspect #:nodoc:
       "#<Plex::Movie: key=\"#{key}\" title=\"#{title}\">"
     end
@@ -46,7 +51,7 @@ module Plex
     private
 
     def xml_doc
-      @xml_doc ||= Nokogiri::XML( open(url+key) )
+      @xml_doc ||= Nokogiri::XML( open(url+key+"?#{plex_token}") )
     end
 
     def video

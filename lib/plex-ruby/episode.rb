@@ -14,7 +14,7 @@ module Plex
     def attribute_hash
       video.attribute_hash.merge({'key' => key})
     end
-    
+
     # Delegates all method calls to the video object that represents this
     # episode, if that video object responds to the method.
     def method_missing(method, *args, &block)
@@ -39,6 +39,11 @@ module Plex
     end
 
     # @private
+    def plex_token #:nodoc:
+      season.plex_token
+    end
+
+    # @private
     def ==(other) #:nodoc:
       if other.is_a? Plex::Episode
         key == other.key
@@ -55,7 +60,10 @@ module Plex
     private
 
     def xml_doc
-      @xml_doc ||= Nokogiri::XML( open(url+key) )
+      path = url+key
+      path += "?#{plex_token}" if plex_token
+
+      @xml_doc ||= Nokogiri::XML( open(path) )
     end
 
     def video

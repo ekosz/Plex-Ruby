@@ -2,8 +2,8 @@ module Plex
   # Found at /library/metadata/:key
   class Season
 
-    ATTRIBUTES = %w(ratingKey guid type title summary index thumb leafCount 
-                    viewedLeafCount addedAt updatedAt) 
+    ATTRIBUTES = %w(ratingKey guid type title summary index thumb leafCount
+                    viewedLeafCount addedAt updatedAt)
 
     attr_reader :show, :key, :attribute_hash
 
@@ -63,6 +63,11 @@ module Plex
     end
 
     # @private
+    def plex_token #:nodoc:
+      show.plex_token
+    end
+
+    # @private
     def ==(other) #:nodoc:
       if other.is_a? Plex::Season
         key == other.key
@@ -79,18 +84,18 @@ module Plex
     private
 
     def base_doc
-      Nokogiri::XML( open(url+key) )
+      Nokogiri::XML( open(url+key+"?#{plex_token}}") )
     end
 
     def base_children_doc
-      Nokogiri::XML( open(url+key+'/children') )
+      Nokogiri::XML( open(url+key+"/children?#{plex_token}") )
     end
 
     def xml_doc
       @xml_doc ||= base_doc
     end
 
-    def children 
+    def children
       @children ||= base_children_doc
     end
 
