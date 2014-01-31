@@ -1,10 +1,10 @@
 module Plex
   class Client
 
-    NAV_METHODS = %w(moveUp moveDown moveLeft moveRight pageUp pageDown nextLetter 
-                     previousLetter select back contextMenu toggleOSD) 
+    NAV_METHODS = %w(moveUp moveDown moveLeft moveRight pageUp pageDown nextLetter
+                     previousLetter select back contextMenu toggleOSD)
 
-    PLAYBACK_METHODS = %w(play pause stop rewind fastForward stepForward 
+    PLAYBACK_METHODS = %w(play pause stop rewind fastForward stepForward
                           bigStepForward stepBack bigStepBack skipNext skipPrevious)
 
     ATTRIBUTES = %w(name host address port machineIdentifier version)
@@ -30,7 +30,10 @@ module Plex
     NAV_METHODS.each { |nav|
       class_eval %(
         def #{Plex.underscore(nav)}
-          ping player_url+'/navigation/#{nav}'
+          url = player_url+'/navigation/#{nav}'
+          url += '?'+plex_token if plex_token
+
+          ping url
         end
       )
     }
@@ -43,13 +46,16 @@ module Plex
     PLAYBACK_METHODS.each { |playback|
       class_eval %(
         def #{Plex.underscore(playback)}
-          ping player_url+'/playback/#{playback}'
+          url = player_url+'/playback/#{playback}'
+          url += '?'+plex_token if plex_token
+
+          ping url
         end
       )
     }
 
     def play_file
-      ping player_url+"/application/playFile"
+      ping player_url+"/application/playFile?#{plex_token}"
     end
 
     # Plays a video that is in the library
@@ -64,7 +70,7 @@ module Plex
     def play_media(key, user_agent = nil, http_cookies = nil, view_offset = nil)
 
       if !key.is_a?(String) && key.respond_to?(:key)
-        key = key.key 
+        key = key.key
       end
 
       url = player_url+'/application/playMedia?'
@@ -73,6 +79,7 @@ module Plex
       url += "&userAgent=#{user_agent}" if user_agent
       url += "&httpCookies=#{http_cookies}" if http_cookies
       url += "&viewOffset=#{view_offset}" if view_offset
+      url += "&#{plex_token}" if plex_token
 
       ping url
     end
@@ -89,6 +96,7 @@ module Plex
       url += "width=#{width}"
       url += "&height=#{height}"
       url += "&quality=#{quality}"
+      url += "&#{plex_token}" if plex_token
 
       ping url
     end
@@ -99,7 +107,7 @@ module Plex
     # @return [True, nil] true if it worked, nil if something went wrong check
     #   the console for the error message
     def send_string(text)
-      ping player_url+"/application/sendString?text=#{CGI::escape(text.to_s)}"
+      ping player_url+"/application/sendString?text=#{CGI::escape(text.to_s)}&#{plex_token}"
     end
 
     # Sends a key code to the Plex Client.  Key codes represent key presses on
@@ -112,17 +120,22 @@ module Plex
     # @return [True, nil] true if it worked, nil if something went wrong check
     #   the console for the error message
     def send_key(code)
-      ping player_url+"/application/sendKey?code=#{CGI::escape(code.to_s)}"
+      ping player_url+"/application/sendKey?code=#{CGI::escape(code.to_s)}&#{plex_token}"
     end
 
     # (see #send_key)
     def send_virtual_key(code)
-      ping player_url+"/application/sendVirtualKey?code=#{CGI::escape(code.to_s)}"
+      ping player_url+"/application/sendVirtualKey?code=#{CGI::escape(code.to_s)}&#{plex_token}"
     end
 
     # @private
     def url #:nodoc:
       server.url
+    end
+
+    # @private
+    def plex_token #:nodoc:
+      server.plex_token
     end
 
     # @private

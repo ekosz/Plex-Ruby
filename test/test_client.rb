@@ -15,27 +15,27 @@ describe Plex::Client do
   Plex::Client::NAV_METHODS.each { |method|
     it "should properly communicate its ##{Plex.underscore(method)} method" do
       assert @client.send(Plex.underscore(method).to_sym)
-      FakeWeb.last_request.path.must_equal "/system/players/#{@client.name}/navigation/#{method}"
+      FakeWeb.last_request.path.must_equal "/system/players/#{@client.name}/navigation/#{method}?X-Plex-Token=Q29qZELpx3UNxFLuqPHH"
     end
   }
 
   Plex::Client::PLAYBACK_METHODS.each { |method|
     it "should properly communicate its ##{Plex.underscore(method)} method" do
       assert @client.send(Plex.underscore(method).to_sym)
-      FakeWeb.last_request.path.must_equal "/system/players/#{@client.name}/playback/#{method}"
+      FakeWeb.last_request.path.must_equal "/system/players/#{@client.name}/playback/#{method}?X-Plex-Token=Q29qZELpx3UNxFLuqPHH"
     end
   }
 
   it "should properly commnicate its  #play_file method" do
     assert @client.play_file
-    FakeWeb.last_request.path.must_equal "/system/players/#{@client.name}/application/playFile"
+    FakeWeb.last_request.path.must_equal "/system/players/#{@client.name}/application/playFile?X-Plex-Token=Q29qZELpx3UNxFLuqPHH"
   end
 
   it "should properly commnicate its  #play_media method" do
     key = '/metadata/10'
     assert @client.play_media(key)
     FakeWeb.last_request.path.must_equal(
-      "/system/players/#{@client.name}/application/playMedia?path=#{CGI::escape(@client.url+key)}&key=#{CGI::escape(key)}"
+      "/system/players/#{@client.name}/application/playMedia?path=#{CGI::escape(@client.url+key)}&key=#{CGI::escape(key)}&X-Plex-Token=Q29qZELpx3UNxFLuqPHH"
     )
   end
 
@@ -43,35 +43,35 @@ describe Plex::Client do
     object = Plex::Episode.new(FakeParent.new, '/libary/metadata/6')
     assert @client.play_media(object)
     FakeWeb.last_request.path.must_equal(
-      "/system/players/#{@client.name}/application/playMedia?path=#{CGI::escape(@client.url+object.key)}&key=#{CGI::escape(object.key)}"
+      "/system/players/#{@client.name}/application/playMedia?path=#{CGI::escape(@client.url+object.key)}&key=#{CGI::escape(object.key)}&X-Plex-Token=Q29qZELpx3UNxFLuqPHH"
     )
   end
 
   it "should properly commnicate its  #screenshot method" do
     assert @client.screenshot(100, 100, 75)
     FakeWeb.last_request.path.must_equal(
-      "/system/players/#{@client.name}/application/screenshot?width=100&height=100&quality=75"
+      "/system/players/#{@client.name}/application/screenshot?width=100&height=100&quality=75&X-Plex-Token=Q29qZELpx3UNxFLuqPHH"
     )
   end
 
   it "should properly commnicate its  #send_string method" do
     assert @client.send_string(35)
     FakeWeb.last_request.path.must_equal(
-      "/system/players/#{@client.name}/application/sendString?text=35"
+      "/system/players/#{@client.name}/application/sendString?text=35&X-Plex-Token=Q29qZELpx3UNxFLuqPHH"
     )
   end
 
   it "should properly commnicate its  #send_key method" do
     assert @client.send_key(70)
     FakeWeb.last_request.path.must_equal(
-      "/system/players/#{@client.name}/application/sendKey?code=70"
+      "/system/players/#{@client.name}/application/sendKey?code=70&X-Plex-Token=Q29qZELpx3UNxFLuqPHH"
     )
   end
 
   it "should properly commnicate its  #send_virtual_key method" do
     assert @client.send_virtual_key(70)
     FakeWeb.last_request.path.must_equal(
-      "/system/players/#{@client.name}/application/sendVirtualKey?code=70"
+      "/system/players/#{@client.name}/application/sendVirtualKey?code=70&X-Plex-Token=Q29qZELpx3UNxFLuqPHH"
     )
   end
 

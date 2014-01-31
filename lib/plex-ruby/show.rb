@@ -1,8 +1,8 @@
 module Plex
   class Show
 
-    ATTRIBUTES = %w(ratingKey guid studio type title contentRating summary index 
-                    rating year thumb art leafCount viewedLeafCount addedAt 
+    ATTRIBUTES = %w(ratingKey guid studio type title contentRating summary index
+                    rating year thumb art leafCount viewedLeafCount addedAt
                     updatedAt)
 
     attr_reader :section, :key, :attribute_hash
@@ -44,7 +44,7 @@ module Plex
     end
 
     # Helper method for selecting the special Season of this show
-    # Season 0 is where Plex stores episodes that are not part of a 
+    # Season 0 is where Plex stores episodes that are not part of a
     # regular season. i.e. Christmas Specials
     #
     # @return [Season] season with index of 0
@@ -89,6 +89,11 @@ module Plex
     end
 
     # @private
+    def plex_token #:nodoc:
+      section.plex_token
+    end
+
+    # @private
     def ==(other) #:nodoc:
       if other.is_a? Plex::Show
         key == other.key
@@ -105,17 +110,17 @@ module Plex
     private
 
     def base_doc
-      Nokogiri::XML( open(url+key) )
+      Nokogiri::XML( open(url+key+"?#{plex_token}") )
     end
 
     def children_base
-      Nokogiri::XML( open(url+key+'/children') )
+      Nokogiri::XML( open(url+key+'/children'+"?#{plex_token}") )
     end
 
     def xml_doc
       @xml_doc ||= base_doc
     end
-    
+
     def children
       @children ||= children_base
     end

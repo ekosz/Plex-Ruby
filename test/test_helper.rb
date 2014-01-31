@@ -25,8 +25,8 @@ class FakeNode
   end
 
   def attributes
-    @hash.each_with_object({}) do |(key, val), obj| 
-      obj[Plex.camelize(key)] = FakeAttr.new(val) 
+    @hash.each_with_object({}) do |(key, val), obj|
+      obj[Plex.camelize(key)] = FakeAttr.new(val)
     end
   end
 
@@ -37,6 +37,10 @@ class FakeNode
 end
 
 class FakeParent
+
+  def plex_token
+    'X-Plex-Token=Q29qZELpx3UNxFLuqPHH'
+  end
 
   def url
     'http://localhost:32400'
@@ -167,27 +171,27 @@ FAKE_ROLE_NODE_HASH = {
 
 FAKE_VIDEO_NODE_HASH = {
   rating_key: '7',
-  key: '/library/7', 
-  studio: 'Six', 
-  type: 'movie', 
-  title: 'Men in Black (2011)', 
-  title_sort: 'Men in Black', 
-  content_rating: 'MA', 
-  summary: 'Two men fight the entire world!', 
-  rating: '9.9', 
-  view_count: '0', 
-  year: '2011', 
-  tagline: 'Fight the Power!', 
-  thumb: '/some/long/filename.jpg', 
-  art: '/some/other/long/filename.jpg', 
-  duration: '3400', 
-  originally_available_at: '324124', 
-  updated_at: '342214', 
+  key: '/library/7',
+  studio: 'Six',
+  type: 'movie',
+  title: 'Men in Black (2011)',
+  title_sort: 'Men in Black',
+  content_rating: 'MA',
+  summary: 'Two men fight the entire world!',
+  rating: '9.9',
+  view_count: '0',
+  year: '2011',
+  tagline: 'Fight the Power!',
+  thumb: '/some/long/filename.jpg',
+  art: '/some/other/long/filename.jpg',
+  duration: '3400',
+  originally_available_at: '324124',
+  updated_at: '342214',
   index: '1',
-  Media: FakeNode.new( FAKE_MEDIA_NODE_HASH ), 
-  Genre: FakeNode.new( FAKE_GENRE_NODE_HASH ), 
+  Media: FakeNode.new( FAKE_MEDIA_NODE_HASH ),
+  Genre: FakeNode.new( FAKE_GENRE_NODE_HASH ),
   Writer: FakeNode.new( FAKE_WRITER_NODE_HASH ),
-  Director: FakeNode.new( FAKE_DIRECTOR_NODE_HASH ), 
+  Director: FakeNode.new( FAKE_DIRECTOR_NODE_HASH ),
   Role: FakeNode.new( FAKE_ROLE_NODE_HASH )
 }
 

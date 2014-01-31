@@ -44,6 +44,11 @@ module Plex
     end
 
     # @private
+    def plex_token #:nodoc:
+      server.plex_token
+    end
+
+    # @private
     def ==(other) #:nodoc:
       if other.is_a? Library
         server == other.server
@@ -73,7 +78,10 @@ module Plex
     end
 
     def base_doc
-      Nokogiri::XML( open(url+key) )
+      path = url+key
+      path += "?#{plex_token}" if plex_token
+
+      Nokogiri::XML( open(path) )
     end
 
 
