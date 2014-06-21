@@ -73,7 +73,7 @@ module Plex
     end
 
     def base_doc
-      Nokogiri::XML( open(url+key) )
+      Nokogiri::XML( Plex.open(url+key) )
     end
 
 

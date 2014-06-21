@@ -19,6 +19,15 @@ module Plex
     yield(config)
   end
 
+  # Custom open func which adds the required headers configured by
+  # <tt>Plex.configure</tt>
+  def self.open(url)
+    headers = {}
+    headers["X-Plex-Token"] = config.auth_token if config.auth_token
+
+    super(url, headers)
+  end
+
   # Converts camel case names that are commonly found in the Plex APIs into
   # ruby friendly names.  I.E. <tt>playMedia</tt> -> <tt>play_media</tt>
   #

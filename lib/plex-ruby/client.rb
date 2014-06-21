@@ -1,10 +1,10 @@
 module Plex
   class Client
 
-    NAV_METHODS = %w(moveUp moveDown moveLeft moveRight pageUp pageDown nextLetter 
-                     previousLetter select back contextMenu toggleOSD) 
+    NAV_METHODS = %w(moveUp moveDown moveLeft moveRight pageUp pageDown nextLetter
+                     previousLetter select back contextMenu toggleOSD)
 
-    PLAYBACK_METHODS = %w(play pause stop rewind fastForward stepForward 
+    PLAYBACK_METHODS = %w(play pause stop rewind fastForward stepForward
                           bigStepForward stepBack bigStepBack skipNext skipPrevious)
 
     ATTRIBUTES = %w(name host address port machineIdentifier version)
@@ -64,7 +64,7 @@ module Plex
     def play_media(key, user_agent = nil, http_cookies = nil, view_offset = nil)
 
       if !key.is_a?(String) && key.respond_to?(:key)
-        key = key.key 
+        key = key.key
       end
 
       url = player_url+'/application/playMedia?'
@@ -137,7 +137,7 @@ module Plex
     end
 
     def ping(url)
-      !!open(url).read
+      !!Plex.open(url).read
     rescue => e
       puts "Error trying to ping #{url} - #{e.message}"
     end

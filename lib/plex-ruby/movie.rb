@@ -46,7 +46,7 @@ module Plex
     private
 
     def xml_doc
-      @xml_doc ||= Nokogiri::XML( open(url+key) )
+      @xml_doc ||= Nokogiri::XML( Plex.open(url+key) )
     end
 
     def video
