@@ -4,6 +4,21 @@ require 'cgi'
 
 module Plex
 
+  # Instantiates a Config instance once and returns it
+  def self.config
+    @config ||= Config.new
+  end
+
+  # Allows the configuration of some Plex-internal settings. It yields a Config
+  # instance so a block can be used:
+  #
+  #    Plex.configure do |config|
+  #      config.auth_token = "ABCDEF"
+  #    end
+  def self.configure
+    yield(config)
+  end
+
   # Converts camel case names that are commonly found in the Plex APIs into
   # ruby friendly names.  I.E. <tt>playMedia</tt> -> <tt>play_media</tt>
   #
@@ -29,6 +44,7 @@ module Plex
 
 end
 
+require 'plex-ruby/config'
 require 'plex-ruby/parser'
 require 'plex-ruby/server'
 require 'plex-ruby/client'
