@@ -16,7 +16,7 @@ module Plex
     end
 
     # The Plex clients that are connected to this Server
-    # 
+    #
     # @return [Array] list of Clients connected to this server
     def clients
       @clients ||= search_clients clients_doc
@@ -40,7 +40,7 @@ module Plex
     private
 
     def clients_base
-      Nokogiri::XML( open(url+'/clients') )
+      Nokogiri::XML( Plex.open(url+'/clients') )
     end
 
     def clients_doc

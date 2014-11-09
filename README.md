@@ -24,6 +24,17 @@ require 'plex-ruby'
 I developed this using Ruby 1.9.2 so no guaranties that it will work with
 lesser versions of Ruby.
 
+## Configuration
+
+For external access to your Plex Media Server an auth token is required. You
+can configure it with the following snippet.
+
+```ruby
+Plex.configure do |config|
+  config.auth_token = "ABCDEFGH"
+end
+```
+
 ## Usage
 
 Everything Stems from the Plex Media Server. Create a server with the host and

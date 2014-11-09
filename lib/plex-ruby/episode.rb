@@ -14,7 +14,7 @@ module Plex
     def attribute_hash
       video.attribute_hash.merge({'key' => key})
     end
-    
+
     # Delegates all method calls to the video object that represents this
     # episode, if that video object responds to the method.
     def method_missing(method, *args, &block)
@@ -55,7 +55,7 @@ module Plex
     private
 
     def xml_doc
-      @xml_doc ||= Nokogiri::XML( open(url+key) )
+      @xml_doc ||= Nokogiri::XML( Plex.open(url+key) )
     end
 
     def video
