@@ -3,3 +3,4 @@
 Gemfile.lock
 .rake_tasks~
 pkg/*
+*.swp
