@@ -1,3 +1,6 @@
+## 1.5.2
+* Added support for authentication token via `Plex.configure`
+
 ## 1.5.1
 * `Plex::Video` now supports multiple media entries (`@media` renamed to `@medias`)
 
