@@ -14,6 +14,13 @@ module Plex
     def library
       @library ||= Plex::Library.new(self)
     end
+    
+    # The current status of this server
+    #
+    # @return [Status] this Servers status
+    def status
+      @status ||= Plex::Status.new(self)
+    end
 
     # The Plex clients that are connected to this Server
     #
