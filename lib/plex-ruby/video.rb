@@ -23,6 +23,7 @@ module Plex
       @writers    = node.search('Writer').map   { |m| Plex::Writer.new(m)   }
       @directors  = node.search('Director').map { |m| Plex::Director.new(m) }
       @roles      = node.search('Role').map     { |m| Plex::Role.new(m)     }
+      @players    = node.search('Player').map   { |m| Plex::Player.new(m)   } 
     end
 
 
