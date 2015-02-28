@@ -5,7 +5,7 @@ module Plex
                     rating viewCount year tagline thumb art duration
                     originallyAvailableAt updatedAt)
 
-    attr_reader :medias, :genres, :writers, :directors, :roles, :attribute_hash
+    attr_reader :medias, :genres, :writers, :directors, :roles, :players, :attribute_hash
 
     # @param [Nokogiri::XML::Element] nokogiri element that represents this
     #   Video
