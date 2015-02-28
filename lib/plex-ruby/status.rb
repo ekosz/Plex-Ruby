@@ -61,7 +61,7 @@ module Plex
 
     def search_sessions(doc, key = nil)
       term = key ? "Video[@sessionKey='#{key}']" : 'Video'
-      doc.search(term).map { |m| Plex::Video.new(self, m) }
+      doc.search(term).map { |m| Plex::Video.new(m) }
     end
 
     def xml_doc
