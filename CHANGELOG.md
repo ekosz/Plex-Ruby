@@ -1,3 +1,6 @@
+## 1.5.3
+* The player name is now escaped correctly in the URI (@jodyalbritton)
+
 ## 1.5.2
 * Added support for authentication token via `Plex.configure`
 
