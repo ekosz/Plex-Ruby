@@ -72,7 +72,7 @@ module Plex
 
     def search_children(node)
       node.search('Track').map do |track|
-        plex_track.new(self, track.attr('key'))
+        plex_track.new(self, track.attr('key'), track.search('Media'))
       end
     end
 

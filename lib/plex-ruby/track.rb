@@ -4,10 +4,12 @@ module Plex
     ATTRIBUTES = %w(ratingKey title originalTitle summary index duration thumb year addedAt updatedAt)
 
     attr_reader :section, :key, :attribute_hash
+    attr_reader :medias
 
     # @param [Album] Album this Track belongs to
     # @param [String] key to use to later grab this Track
-    def initialize(section, key)
+    # @param [Nokogiri::XML::Element] Media node(s)
+    def initialize(section, key, medias = nil)
       @section = section
       @key = key
       @attribute_hash = {}
@@ -20,6 +22,8 @@ module Plex
       end
 
       @attribute_hash.merge({'key' => @key})
+
+      @medias = medias.map { |m| Plex::Media.new(m) }
     end
 
     # @private
