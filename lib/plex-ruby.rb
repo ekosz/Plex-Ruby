@@ -22,7 +22,7 @@ module Plex
   # Custom open func which adds the required headers configured by
   # <tt>Plex.configure</tt>
   def self.open(url)
-    headers = {}
+    headers = {:ssl_verify_mode => 0}
     headers["X-Plex-Token"] = config.auth_token if config.auth_token
 
     super(url, headers)

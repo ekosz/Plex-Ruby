@@ -29,7 +29,7 @@ module Plex
 
     # @private
     def url #:nodoc:
-      "http://#{host}:#{port}"
+      "https://#{host}:#{port}"
     end
 
     # @private
