@@ -39,7 +39,7 @@ end
 class FakeParent
 
   def url
-    'http://localhost:32400'
+    'https://localhost:32400'
   end
 
 end

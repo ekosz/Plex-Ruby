@@ -5,7 +5,7 @@ describe Plex::Client do
   before do
     @server = FakeParent.new
     @client = Plex::Client.new(@server, FakeNode.new(FAKE_CLIENT_NODE_HASH))
-    FakeWeb.register_uri(:get, %r|http://localhost:32400|, :body => "")
+    FakeWeb.register_uri(:get, %r|https://localhost:32400|, :body => "")
   end
 
   after do
