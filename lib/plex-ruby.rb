@@ -68,4 +68,7 @@ require 'plex-ruby/show'
 require 'plex-ruby/season'
 require 'plex-ruby/episode'
 require 'plex-ruby/movie'
+require 'plex-ruby/artist'
+require 'plex-ruby/album'
+require 'plex-ruby/track'
 
