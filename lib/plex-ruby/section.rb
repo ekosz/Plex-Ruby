@@ -20,8 +20,8 @@ module Plex
       }
     end
 
-    # NOT IMPLEMENTED
-    def refresh(deep = false, force = false)
+    def refresh
+      Plex.open(url + key + '/refresh')
     end
 
 
