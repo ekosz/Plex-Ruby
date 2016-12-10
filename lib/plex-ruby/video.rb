@@ -5,7 +5,7 @@ module Plex
                     rating viewCount year tagline thumb art duration
                     originallyAvailableAt updatedAt)
 
-    attr_reader :medias, :genres, :writers, :directors, :roles, :attribute_hash
+    attr_reader :medias, :genres, :writers, :directors, :roles, :players, :attribute_hash
 
     # @param [Nokogiri::XML::Element] nokogiri element that represents this
     #   Video
@@ -23,6 +23,7 @@ module Plex
       @writers    = node.search('Writer').map   { |m| Plex::Writer.new(m)   }
       @directors  = node.search('Director').map { |m| Plex::Director.new(m) }
       @roles      = node.search('Role').map     { |m| Plex::Role.new(m)     }
+      @players    = node.search('Player').map   { |m| Plex::Player.new(m)   } 
     end
 
 
