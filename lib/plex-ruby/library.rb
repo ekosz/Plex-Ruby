@@ -3,6 +3,9 @@ module Plex
 
     attr_reader :server
 
+    WATCHED_LINK = "/:/scrobble?identifier=com.plexapp.plugins.library&key="
+    UNWATCHED_LINK = "/:/unscrobble?identifier=com.plexapp.plugins.library&key="
+
     # @param [Server] server this libary belongs to
     def initialize(server)
       @server = server
@@ -31,6 +34,20 @@ module Plex
     # Cache busting version of #sections
     def sections!
       @sections = search_sections(xml_doc!)
+    end
+
+    # Set the video as watched
+    #
+    # @param [Video] video to be set as watched
+    def watched(video)
+      open(url+WATCHED_LINK+video.rating_key)
+    end
+
+    # Set the video as unwatched
+    #
+    # @param [Video] video to be set as unwatched
+    def unwatched(video)
+      open(url+UNWATCHED_LINK+video.rating_key)
     end
 
     # @private
