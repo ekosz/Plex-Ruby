@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'minitest'
   s.add_development_dependency 'rake'
-  s.add_development_dependency 'fakeweb', ['~> 1.3']
+  s.add_development_dependency 'fakeweb'
+  s.add_development_dependency 'pry'
   s.add_runtime_dependency 'nokogiri'
 end

@@ -1,6 +1,7 @@
 require 'plex-ruby'
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'pry'
 
 class FakeAttr
   def initialize(val)
@@ -151,6 +152,11 @@ FAKE_DIRECTOR_NODE_HASH = {
   tag: 'King',
 }.freeze
 
+FAKE_COLLECTION_NODE_HASH = {
+  id: '78376',
+  tag: 'Harry Potter',
+}.freeze
+
 FAKE_ROLE_NODE_HASH = {
   id: '16',
   tag: 'Red Haired Person',
@@ -181,6 +187,7 @@ FAKE_VIDEO_NODE_HASH = {
   Writer: FakeNode.new(FAKE_WRITER_NODE_HASH),
   Director: FakeNode.new(FAKE_DIRECTOR_NODE_HASH),
   Role: FakeNode.new(FAKE_ROLE_NODE_HASH),
+  Collection: FakeNode.new(FAKE_COLLECTION_NODE_HASH),
 }.freeze
 
 FAKE_PARSER_NODE_HASH = {
