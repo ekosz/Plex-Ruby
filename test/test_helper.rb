@@ -1,5 +1,6 @@
 require 'plex-ruby'
 require 'minitest/autorun'
+require 'minitest/pride'
 
 class FakeAttr
 
