@@ -1,6 +1,5 @@
 module Plex
   class Library
-
     attr_reader :server
 
     # @param [Server] server this libary belongs to
