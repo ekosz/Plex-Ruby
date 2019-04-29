@@ -97,11 +97,11 @@ FAKE_SECTION_NODE_HASH = {
   scanner: 'Plex Movie Scanner',
   language: 'en',
   updated_at: '1323213684',
-}
+}.freeze
 
 FAKE_LIBRARY_NODE_HASH = {
   :Directory => FakeNode.new(FAKE_SECTION_NODE_HASH),
-  :"Directory[@key='#{FAKE_SECTION_NODE_HASH[:key]}.freeze']" =>  FakeNode.new(FAKE_SECTION_NODE_HASH),
+  :"Directory[@key='#{FAKE_SECTION_NODE_HASH[:key]}']" =>  FakeNode.new(FAKE_SECTION_NODE_HASH),
 }.freeze
 
 FAKE_STREAM_NODE_HASH = {
