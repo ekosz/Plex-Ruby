@@ -128,7 +128,7 @@ module Plex
     private
 
     def player_url
-      URI.escape(url + "/system/players/#{name}")
+      url + '/system/players/' + CGI.escape(name)
     end
 
     def ping(url)
