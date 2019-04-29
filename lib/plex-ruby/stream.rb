@@ -1,6 +1,5 @@
 module Plex
   class Stream
-
     ATTRIBUTES = %w(id streamType codec index language languageCode)
 
     # @param [Nokogiri::XML::Element] nokogiri element that represents this
@@ -20,6 +19,5 @@ module Plex
         super
       end
     end
-
   end
 end

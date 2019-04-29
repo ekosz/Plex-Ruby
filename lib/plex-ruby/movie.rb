@@ -1,6 +1,5 @@
 module Plex
   class Movie
-
     attr_reader :section, :key
 
     # @param [Section] section this movie belongs in
@@ -46,12 +45,11 @@ module Plex
     private
 
     def xml_doc
-      @xml_doc ||= Nokogiri::XML( Plex.open(url+key) )
+      @xml_doc ||= Nokogiri::XML(Plex.open(url+key))
     end
 
     def video
       @video ||= Plex::Video.new(xml_doc.search('Video').first)
     end
-
   end
 end

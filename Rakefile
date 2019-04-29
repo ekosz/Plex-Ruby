@@ -8,4 +8,3 @@ Rake::TestTask.new do |i|
 end
 
 task default: :test
-

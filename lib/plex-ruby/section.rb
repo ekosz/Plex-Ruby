@@ -1,13 +1,12 @@
 module Plex
   class Section
+    GROUPS = %w(all unwatched newest recentlyAdded recentlyViewed onDeck).freeze
 
-    GROUPS = %w(all unwatched newest recentlyAdded recentlyViewed onDeck)
+    ATTRIBUTES = %w(refreshing key type title art agent scanner language updatedAt).freeze
 
-    ATTRIBUTES = %w(refreshing key type title art agent scanner language updatedAt)
+    CATEGORIES = %w(collection firstCharacter genre year contentRating folder).freeze
 
-    CATEGORIES = %w(collection firstCharacter genre year contentRating folder)
-
-    attr_reader *ATTRIBUTES.map {|m| Plex.underscore(m) }
+    attr_reader(*ATTRIBUTES.map { |m| Plex.underscore(m) })
     attr_reader :library
 
     # @param [Library] library this Section belongs to
