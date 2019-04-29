@@ -1,25 +1,23 @@
 module Plex
   class Client
-
     NAV_METHODS = %w(moveUp moveDown moveLeft moveRight pageUp pageDown nextLetter
-                     previousLetter select back contextMenu toggleOSD)
+                     previousLetter select back contextMenu toggleOSD).freeze
 
     PLAYBACK_METHODS = %w(play pause stop rewind fastForward stepForward
-                          bigStepForward stepBack bigStepBack skipNext skipPrevious)
+                          bigStepForward stepBack bigStepBack skipNext skipPrevious).freeze
 
-    ATTRIBUTES = %w(name host address port machineIdentifier version)
+    ATTRIBUTES = %w(name host address port machineIdentifier version).freeze
 
-    attr_reader *ATTRIBUTES.map {|m| Plex.underscore(m) }
+    attr_reader(*ATTRIBUTES.map { |m| Plex.underscore(m) })
     attr_reader :server
-
 
     # @param [Server] server this client belongs to
     # @param [Nokogiri::XML::Element] nokogiri element to build from
     def initialize(server, node)
       @server = server
-      ATTRIBUTES.each { |e|
-        instance_variable_set("@#{Plex.underscore(e)}", node.attr(e))
-      }
+      ATTRIBUTES.each do |attribute|
+        instance_variable_set("@#{Plex.underscore(attribute)}", node.attr(attribute))
+      end
     end
 
     # Navigation methods
@@ -27,29 +25,29 @@ module Plex
     #
     # @return [True, nil] true if it worked, nil if something went wrong check
     #   the console for the error message
-    NAV_METHODS.each { |nav|
+    NAV_METHODS.each do |nav|
       class_eval %(
         def #{Plex.underscore(nav)}
           ping player_url+'/navigation/#{nav}'
         end
       )
-    }
+    end
 
     # Playback methods
     # Sends a playback command to the client to play / pause videos and such
     #
     # @return [True, nil] true if it worked, nil if something went wrong check
     #   the console for the error message
-    PLAYBACK_METHODS.each { |playback|
+    PLAYBACK_METHODS.each do |playback|
       class_eval %(
         def #{Plex.underscore(playback)}
           ping player_url+'/playback/#{playback}'
         end
       )
-    }
+    end
 
     def play_file
-      ping player_url+"/application/playFile"
+      ping player_url + '/application/playFile'
     end
 
     # Plays a video that is in the library
@@ -62,14 +60,11 @@ module Plex
     # @return [True, nil] true if it worked, nil if something went wrong check
     #   the console for the error message
     def play_media(key, user_agent = nil, http_cookies = nil, view_offset = nil)
+      key = key.key if !key.is_a?(String) && key.respond_to?(:key)
 
-      if !key.is_a?(String) && key.respond_to?(:key)
-        key = key.key
-      end
-
-      url = player_url+'/application/playMedia?'
-      url += "path=#{CGI::escape(server.url+key)}"
-      url += "&key=#{CGI::escape(key)}"
+      url = player_url + '/application/playMedia?'
+      url += "path=#{CGI.escape(server.url + key)}"
+      url += "&key=#{CGI.escape(key)}"
       url += "&userAgent=#{user_agent}" if user_agent
       url += "&httpCookies=#{http_cookies}" if http_cookies
       url += "&viewOffset=#{view_offset}" if view_offset
@@ -85,10 +80,10 @@ module Plex
     # @return [True, nil] true if it worked, nil if something went wrong check
     #   the console for the error message
     def screenshot(width, height, quality)
-      url = player_url+'/application/screenshot?'
-      url += "width=#{width}"
-      url += "&height=#{height}"
-      url += "&quality=#{quality}"
+      url = player_url + '/application/screenshot?'
+      url  += "width=#{width}"
+      url  += "&height=#{height}"
+      url  += "&quality=#{quality}"
 
       ping url
     end
@@ -99,7 +94,7 @@ module Plex
     # @return [True, nil] true if it worked, nil if something went wrong check
     #   the console for the error message
     def send_string(text)
-      ping player_url+"/application/sendString?text=#{CGI::escape(text.to_s)}"
+      ping player_url + "/application/sendString?text=#{CGI.escape(text.to_s)}"
     end
 
     # Sends a key code to the Plex Client.  Key codes represent key presses on
@@ -112,12 +107,12 @@ module Plex
     # @return [True, nil] true if it worked, nil if something went wrong check
     #   the console for the error message
     def send_key(code)
-      ping player_url+"/application/sendKey?code=#{CGI::escape(code.to_s)}"
+      ping player_url + "/application/sendKey?code=#{CGI.escape(code.to_s)}"
     end
 
     # (see #send_key)
     def send_virtual_key(code)
-      ping player_url+"/application/sendVirtualKey?code=#{CGI::escape(code.to_s)}"
+      ping player_url + "/application/sendVirtualKey?code=#{CGI.escape(code.to_s)}"
     end
 
     # @private
@@ -133,7 +128,7 @@ module Plex
     private
 
     def player_url
-      URI.escape(url+"/system/players/#{name}")
+      URI.escape(url + "/system/players/#{name}")
     end
 
     def ping(url)
@@ -141,6 +136,5 @@ module Plex
     rescue => e
       puts "Error trying to ping #{url} - #{e.message}"
     end
-
   end
 end
