@@ -1,4 +1,4 @@
-%w(Genre Writer Director Country).each { |type|
+%w(Collection Genre Writer Director Country).each { |type|
   eval <<-CLASS
 module Plex
   class #{type}
