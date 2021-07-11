@@ -14,7 +14,7 @@ describe Plex::Server do
   end
 
   it "properly formats its url" do
-    @server.url.must_equal "http://localhost:3000"
+    @server.url.must_equal "https://localhost:3000"
   end
 
   it "has a libary" do

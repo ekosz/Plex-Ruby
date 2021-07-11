@@ -22,10 +22,10 @@ module Plex
   # Custom open func which adds the required headers configured by
   # <tt>Plex.configure</tt>
   def self.open(url)
-    headers = {}
+    headers = {:ssl_verify_mode => 0}
     headers["X-Plex-Token"] = config.auth_token if config.auth_token
 
-    super(url, headers)
+    URI.open(url, headers)
   end
 
   # Converts camel case names that are commonly found in the Plex APIs into
@@ -62,10 +62,15 @@ require 'plex-ruby/section'
 require 'plex-ruby/video'
 require 'plex-ruby/media'
 require 'plex-ruby/part'
+require 'plex-ruby/player'
 require 'plex-ruby/stream'
+require 'plex-ruby/status'
 require 'plex-ruby/tags'
 require 'plex-ruby/show'
 require 'plex-ruby/season'
 require 'plex-ruby/episode'
 require 'plex-ruby/movie'
+require 'plex-ruby/artist'
+require 'plex-ruby/album'
+require 'plex-ruby/track'
 

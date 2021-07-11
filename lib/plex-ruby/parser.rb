@@ -63,6 +63,10 @@ module Plex
       case node.attr('type')
       when 'show'
         Plex::Show.new( parent, node.attr('key')[0..-10] ) # Remove /children
+      when 'artist'
+        Plex::Artist.new( parent, node.attr('key')[0..-10] )
+      when 'album'
+        Plex::Album.new( parent, node.attr('key')[0..-10] )
       else
         raise "Unsupported Directory type #{node.attr('type')}"
       end

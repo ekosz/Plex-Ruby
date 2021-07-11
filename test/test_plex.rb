@@ -9,7 +9,7 @@ describe Plex do
   end
 
   before do
-    FakeWeb.register_uri(:get, "http://localhost:32400", :body => "")
+    FakeWeb.register_uri(:get, "https://localhost:32400", :body => "")
   end
 
   after do
@@ -20,7 +20,7 @@ describe Plex do
   it "has an open function which respects the configuration" do
     Plex.configure {|config| config.auth_token = "ABCD" }
 
-    Plex.open("http://localhost:32400").read
+    Plex.open("https://localhost:32400").read
     FakeWeb.last_request["X-Plex-Token"].must_equal "ABCD"
   end
 end

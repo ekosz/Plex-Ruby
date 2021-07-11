@@ -20,8 +20,8 @@ module Plex
       }
     end
 
-    # NOT IMPLEMENTED
-    def refresh(deep = false, force = false)
+    def refresh
+      Plex.open(url + key + '/refresh')
     end
 
 
@@ -35,13 +35,14 @@ module Plex
     # on_deck - videos that are "on deck" in this Section
     #
     # @return [Array] list of Shows or Movies in that group
-    GROUPS.each { |method|
-      class_eval %(
-        def #{Plex.underscore(method)}
-          Plex::Parser.new( self, Nokogiri::XML(Plex.open(url+key+'/#{method}')) ).parse
-        end
-      )
-    }
+    GROUPS.each do |method|
+      define_method(Plex.underscore(method).to_sym) do |options = {}|
+        path = '/' + method + '?'
+        path += "title=#{CGI::escape(options[:title])}" if options[:title]
+        path += "type=4" if options[:episodes]
+        Plex::Parser.new( self, Nokogiri::XML(Plex.open(url+key+path )) ).parse
+      end
+    end
 
     # Find TV Shows / Episodes by categories
     #
